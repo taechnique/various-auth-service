@@ -2,9 +2,20 @@ server:
   port: 8932
 
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
   datasource:
-    # docker run -it -d -p 3306:3894 -e MYSQL_ROOT_PASSWORD=1111 --name service-test-db mysql:5.7
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1111
-    url:jdbc:mysql://localhost:3894/mini_service
+    url: jdbc:mysql://localhost:3894/mini_service
+
+    tomcat:
+      max-wait: 10000
+      max-active: 50 # 톰캣 커넥션 제한
+      # test-on-borrow: true # 풀에서 빌리기젼 커넥션 체크
