@@ -15,7 +15,7 @@ public class AuthorizationController {
     @PostMapping
     public ResponseEntity<StandardAuthDto> authorizeForUser(@RequestBody @Validated AuthRequestDto authDto) throws AuthorizingException {
 
-
-        return null;
+        System.out.println("authDto = " + authDto);
+        return ResponseEntity.ok(null);
     }
 }

@@ -8,8 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UserAccountModel {
-
-
+    
     private String username;
 
     @JsonInclude(Include.NON_EMPTY)
