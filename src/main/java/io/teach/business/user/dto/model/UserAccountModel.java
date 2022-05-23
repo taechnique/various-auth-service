@@ -1,4 +1,4 @@
-package io.teach.user.dto.model;
+package io.teach.business.user.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -8,7 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UserAccountModel {
-
 
     private String username;
 
