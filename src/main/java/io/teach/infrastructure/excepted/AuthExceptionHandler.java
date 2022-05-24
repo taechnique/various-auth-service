@@ -1,6 +1,7 @@
 package io.teach.infrastructure.excepted;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,14 +17,12 @@ public class AuthExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
 
-        e.getBindingResult().getAllErrors().stream().forEach((err) -> {
-            errors.put(((FieldError) err).getField(), err.getDefaultMessage());
-        });
-        System.out.println("errors = " + errors);
+        final ServiceError serviceError = new AuthorizingException(ServiceError.INVALID_REQUEST_BODY).getServiceError();
 
-        return errors;
+        return ResponseEntity
+                .status(serviceError.getStatus())
+                .body(ErrorResponse.create(serviceError));
     }
 }

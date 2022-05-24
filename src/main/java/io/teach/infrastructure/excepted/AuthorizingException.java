@@ -11,4 +11,13 @@ import java.util.Map;
 
 public class AuthorizingException extends RuntimeException {
 
+    private ServiceError error;
+
+    public AuthorizingException(final ServiceError error){
+        this.error = error;;
+    }
+
+    public ServiceError getServiceError() {
+        return this.error;
+    }
 }

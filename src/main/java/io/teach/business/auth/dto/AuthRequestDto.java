@@ -1,7 +1,7 @@
-package io.teach.business.user.dto;
+package io.teach.business.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.teach.business.user.dto.model.UserAccountModel;
+import io.teach.business.auth.dto.model.UserAccountModel;
 import lombok.Getter;
 
 import javax.validation.Valid;
@@ -16,11 +16,9 @@ public class AuthRequestDto {
     private UserAccountModel userAccountModel;
 
     public AuthRequestDto() {
-        System.out.println("Called by AuthRequestDto Constructor.");
     }
 
     public void setUserAccountModel(UserAccountModel userAccountModel) {
-        System.out.println("set userAcountModel \n{userAccountModel}");
         this.userAccountModel = userAccountModel;
     }
 
