@@ -1,8 +1,9 @@
 package io.teach.business.auth.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service("kakaoAuthService")
 public class KakaoAuthService extends AbstractAuthService {
 
     public KakaoAuthService() {

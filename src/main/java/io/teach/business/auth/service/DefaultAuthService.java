@@ -1,8 +1,8 @@
 package io.teach.business.auth.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service("defaultAuthService")
 public class DefaultAuthService extends AbstractAuthService {
 
     public DefaultAuthService() {

@@ -17,6 +17,7 @@ public class AuthServiceFactory {
             final Constructor<? extends AuthService> constructor = authService.getConstructor();
 
             toBeInjectedService = constructor.newInstance();
+            System.out.println("toBeInjectedService = " + toBeInjectedService);
         } catch (Exception e) {
             ReflectionUtils.handleReflectionException(e);
         }

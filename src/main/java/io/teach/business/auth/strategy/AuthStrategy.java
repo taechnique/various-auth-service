@@ -17,8 +17,8 @@ public enum AuthStrategy {
 
     String serviceName;
     Class<? extends AuthService> authService;
-    private static final Map<String, Class<? extends AuthService>> serviceTickets = Arrays.stream(values())
-            .collect(Collectors.toMap(AuthStrategy::getServiceName, AuthStrategy::getAuthService));
+    private static final Map<String, AuthStrategy> serviceTickets = Arrays.stream(values())
+            .collect(Collectors.toMap(AuthStrategy::getServiceName, Function.identity()));
 
     AuthStrategy(String serviceName, Class<? extends AuthService> authService) {
         this.serviceName = serviceName;
@@ -33,6 +33,10 @@ public enum AuthStrategy {
     }
 
     public static Class<? extends AuthService> find(final AuthStrategy authStrategy) {
-        return serviceTickets.get(authStrategy.getServiceName());
+        return find(authStrategy.getServiceName()).getAuthService();
+    }
+
+    public static AuthStrategy find(final String serviceName) {
+        return serviceTickets.get(serviceName);
     }
 }

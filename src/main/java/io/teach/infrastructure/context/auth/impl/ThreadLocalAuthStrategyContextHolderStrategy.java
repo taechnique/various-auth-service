@@ -1,5 +1,8 @@
-package io.teach.infrastructure.holder;
+package io.teach.infrastructure.context.auth.impl;
 
+import io.teach.business.auth.strategy.AuthStrategy;
+import io.teach.infrastructure.context.auth.AuthStrategyContext;
+import io.teach.infrastructure.context.auth.AuthStrategyContextHolderStrategy;
 import io.teach.infrastructure.util.Util;
 import org.springframework.util.Assert;
 
@@ -31,6 +34,6 @@ public class ThreadLocalAuthStrategyContextHolderStrategy implements AuthStrateg
 
     @Override
     public AuthStrategyContext createEmptyContext() {
-        return new AuthStrategyContextImpl();
+        return new AuthStrategyContextImpl(AuthStrategy.DEFAULT);
     }
 }

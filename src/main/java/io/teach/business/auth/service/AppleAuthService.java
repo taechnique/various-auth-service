@@ -1,8 +1,8 @@
 package io.teach.business.auth.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service("appleAuthService")
 public class AppleAuthService extends AbstractAuthService {
 
     public AppleAuthService() {
