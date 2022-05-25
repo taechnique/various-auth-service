@@ -7,6 +7,7 @@ import io.teach.infrastructure.context.auth.AuthStrategyContextHolder;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.business.auth.dto.AuthRequestDto;
 import io.teach.business.auth.dto.StandardAuthDto;
+import io.teach.infrastructure.http.body.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,23 +17,29 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@ResponseBody
+import static io.teach.business.auth.controller.AuthorizationController.BEAN_NAME;
+
+@RestController(BEAN_NAME)
 @RequestMapping("/api/v1/auth")
 public class AuthorizationController {
 
+    public static final String BEAN_NAME = "authentication-provider";
     private AuthService authService;
+
+
+    public AuthorizationController() {
+        System.out.println("AuthorizationController::new");
+    }
 
     public void setDynamicAuthService(final AuthService authService) {
         this.authService = authService;
     }
 
     @PostMapping
-    public ResponseEntity<StandardAuthDto> authorizeForUser(@RequestBody @Valid final AuthRequestDto authDto) throws AuthorizingException {
-        System.out.println("authService = " + authService);
-        System.out.println("this = " + this);
-        System.out.println("authDto: " + authDto);
-        authService.authenticate();
+    public ResponseEntity<StandardResponse> authorizeForUser(@RequestBody @Valid final AuthRequestDto authDto) throws AuthorizingException {
 
-        return ResponseEntity.ok(null);
+        final StandardResponse response = authService.authenticate(authDto);
+
+        return ResponseEntity.ok(response);
     }
 }

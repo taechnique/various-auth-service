@@ -17,6 +17,11 @@ public class AuthorizingException extends RuntimeException {
         this.error = error;;
     }
 
+    @Override
+    public String getMessage() {
+        return error.getCause();
+    }
+
     public ServiceError getServiceError() {
         return this.error;
     }

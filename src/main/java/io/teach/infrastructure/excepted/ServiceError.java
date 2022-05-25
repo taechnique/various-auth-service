@@ -12,7 +12,8 @@ import java.util.stream.Stream;
 @Getter
 public enum ServiceError {
     INVALID_REQUEST_BODY(400, 1, "올바르지 않은 요청 규격."),
-    INVALID_REQUEST_HEADER(400, 2, "올바르지 않은 요청 헤더.");
+    INVALID_REQUEST_HEADER(400, 2, "올바르지 않은 요청 헤더."),
+    NOT_FOUND_APPROPRIATE_PROVIDER(400, 3, "존재하지 않는 서비스 제공자");
 
     private int status;
     private int resCode;

@@ -1,17 +1,24 @@
 package io.teach.business.auth.service;
 
+import io.teach.business.auth.dto.AuthRequestDto;
+import io.teach.infrastructure.http.body.StandardResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service("kakaoAuthService")
+@Service(KakaoAuthService.BEAN_NAME)
 public class KakaoAuthService extends AbstractAuthService {
 
+    public static final String BEAN_NAME = "kakaoAuthService";
+
     public KakaoAuthService() {
-        System.out.println("KakaoAuthService -> constructor");
+        System.out.println("KakaoAuthService::new");
     }
 
     @Override
-    public void authenticate() {
+    public StandardResponse authenticate(AuthRequestDto dto) {
+
         System.out.println("KakaoAuthService -> authenticate()");
+
+        return null;
     }
 }

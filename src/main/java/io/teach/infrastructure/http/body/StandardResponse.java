@@ -5,5 +5,5 @@ package io.teach.infrastructure.http.body;
  */
 public interface StandardResponse {
 
-    int resCode();
+    Integer resCode();
 }

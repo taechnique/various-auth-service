@@ -8,8 +8,9 @@ import io.teach.infrastructure.http.body.StandardResponse;
 public class ErrorResponse implements StandardResponse {
 
     @JsonProperty("err_code")
-    private int resCode;
+    private Integer resCode;
 
+    @JsonProperty("cause")
     @JsonInclude(Include.NON_EMPTY)
     private String cause;
 
@@ -23,8 +24,12 @@ public class ErrorResponse implements StandardResponse {
     }
 
     @Override
-    public int resCode() {
+    public Integer resCode() {
         return this.resCode;
     }
 
+    @Override
+    public String toString() {
+        return String.format("{\n\t\"res_code\": %d,\n\t\"cause\": \"%s\"\n}\n", this.resCode, this.cause);
+    }
 }

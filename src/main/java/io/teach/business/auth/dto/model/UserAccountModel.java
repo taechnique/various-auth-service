@@ -15,11 +15,13 @@ public class UserAccountModel {
     private String username;
 
     @JsonInclude(Include.NON_EMPTY)
-    private String password;
+    private String passphrase;
+
+    private String additionalPassphrase;
 
 
     @Override
     public String toString() {
-        return String.format("{\n\t\"username\": %s,\n\t\"password\": %s\n\t}", this.username, this.password);
+        return String.format("{\n\t\"username\": %s,\n\t\"password\": %s\n\t}", this.username, this.passphrase);
     }
 }
