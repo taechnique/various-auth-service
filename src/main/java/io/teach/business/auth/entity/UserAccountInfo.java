@@ -1,6 +1,5 @@
 package io.teach.business.auth.entity;
 
-import io.teach.business.auth.dto.model.UserAccountModel;
 import lombok.Getter;
 
 import javax.persistence.*;
