@@ -25,7 +25,7 @@ public class DynamicAuthServiceAOP {
     public void prepareAuthService(final JoinPoint joinPoint, final AuthRequestDto authDto) throws Throwable {
 
         final AuthStrategy strategy = AuthStrategyContextHolder.getContext().getStrategy();
-        final AuthService authService = factory.create(strategy);
+        final AuthService authService = factory.retrieve(strategy);
         final AuthorizationController controller = (AuthorizationController) context.getBean(AuthorizationController.BEAN_NAME);
         controller.setDynamicAuthService(authService);
 

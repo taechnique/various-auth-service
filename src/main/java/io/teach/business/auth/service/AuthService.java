@@ -7,4 +7,5 @@ public interface AuthService {
 
     StandardResponse authenticate(AuthRequestDto dto);
 
+    StandardResponse signup(AuthRequestDto dto);
 }

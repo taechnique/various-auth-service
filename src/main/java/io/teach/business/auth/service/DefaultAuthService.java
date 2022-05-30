@@ -16,12 +16,14 @@ public class DefaultAuthService extends AbstractAuthService {
     private final Printer out;
 
     @Override
+    public StandardResponse signup(AuthRequestDto dto) {
+        return null;
+    }
+
+    @Override
     public StandardResponse authenticate(final AuthRequestDto dto) {
         System.out.println("DefaultAuthService -> authenticate()");
-        try {
 
-            out.draw(dto);
-        } catch (Exception skiped){}
 
         return null;
     }

@@ -14,7 +14,7 @@ public class AuthServiceFactory {
 
     private final ApplicationContext context;
 
-    public AuthService create(final AuthStrategy strategy) {
+    public AuthService retrieve(final AuthStrategy strategy) {
 
         final String beanName = AuthStrategy.find(strategy);
         final AuthService toBeInjected = (AuthService) context.getBean(beanName);

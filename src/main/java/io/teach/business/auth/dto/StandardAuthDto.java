@@ -26,6 +26,6 @@ public class StandardAuthDto implements StandardResponse {
 
     @Override
     public Integer resCode() {
-        return 0;
+        return this.resCode;
     }
 }

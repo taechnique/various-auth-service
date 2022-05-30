@@ -1,19 +1,10 @@
 package io.teach.infrastructure.excepted;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class AuthorizingException extends RuntimeException {
 
-    private ServiceError error;
+    private ServiceStatus error;
 
-    public AuthorizingException(final ServiceError error){
+    public AuthorizingException(final ServiceStatus error){
         this.error = error;;
     }
 
@@ -22,7 +13,7 @@ public class AuthorizingException extends RuntimeException {
         return error.getCause();
     }
 
-    public ServiceError getServiceError() {
+    public ServiceStatus getServiceError() {
         return this.error;
     }
 }

@@ -2,6 +2,7 @@ package io.teach.business.auth.entity;
 
 import io.teach.business.auth.constant.AccountType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -17,7 +18,7 @@ public class UserAuthInfo {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_account_id")
+    @JoinColumn(name = "user_account_id", nullable = false)
     private UserAccountInfo userAccount;
 
     @Column(nullable = false)
@@ -26,6 +27,7 @@ public class UserAuthInfo {
     @Column(nullable = false)
     private String accessToken;
 
+    @Column(nullable = false)
     private LocalDateTime createTime;
 
 

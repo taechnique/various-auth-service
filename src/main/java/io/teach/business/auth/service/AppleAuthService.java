@@ -13,6 +13,11 @@ public class AppleAuthService extends AbstractAuthService {
     }
 
     @Override
+    public StandardResponse signup(AuthRequestDto dto) {
+        return null;
+    }
+
+    @Override
     public StandardResponse authenticate(AuthRequestDto dto) {
         System.out.println("AppleAuthService -> authenticate()");
         return null;

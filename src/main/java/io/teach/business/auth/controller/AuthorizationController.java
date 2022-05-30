@@ -20,7 +20,7 @@ import java.util.Map;
 import static io.teach.business.auth.controller.AuthorizationController.BEAN_NAME;
 
 @RestController(BEAN_NAME)
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/user")
 public class AuthorizationController {
 
     public static final String BEAN_NAME = "authentication-provider";
@@ -35,7 +35,16 @@ public class AuthorizationController {
         this.authService = authService;
     }
 
-    @PostMapping
+    @PostMapping("/signup")
+    public ResponseEntity<StandardResponse> signupForUser(@RequestBody @Valid final AuthRequestDto authDto) throws AuthorizingException {
+
+        final StandardResponse response = authService.signup(authDto);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/auth")
     public ResponseEntity<StandardResponse> authorizeForUser(@RequestBody @Valid final AuthRequestDto authDto) throws AuthorizingException {
 
         final StandardResponse response = authService.authenticate(authDto);

@@ -19,7 +19,7 @@ public class ErrorResponse implements StandardResponse {
         this.cause = cause;
     }
 
-    public static ErrorResponse create(final ServiceError error) {
+    public static ErrorResponse create(final ServiceStatus error) {
         return new ErrorResponse(error.getResCode(), error.getCause());
     }
 

@@ -31,7 +31,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .csrf().disable()
                 .authorizeRequests(auth ->
                         auth
-                                .antMatchers("/api/v1/auth").permitAll()
+                                .antMatchers(
+                                        "/api/v1/auth",
+                                        "/api/v1/common/auth/check")
+                                .permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(withDefaults());
 

@@ -2,10 +2,9 @@ package io.teach.infrastructure.interceptor;
 
 import io.teach.business.auth.strategy.AuthStrategy;
 import io.teach.infrastructure.excepted.AuthorizingException;
-import io.teach.infrastructure.excepted.ServiceError;
+import io.teach.infrastructure.excepted.ServiceStatus;
 import io.teach.infrastructure.service.StrategyService;
 import io.teach.infrastructure.util.Util;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,12 +19,12 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
 
         final String obtainedAuthType = request.getHeader("X-AUTH-TYPE");
         if(Util.isNull(obtainedAuthType))
-            throw new AuthorizingException(ServiceError.INVALID_REQUEST_HEADER);
+            throw new AuthorizingException(ServiceStatus.INVALID_REQUEST_HEADER);
 
         final String xAuthType = obtainedAuthType.toUpperCase();
         AuthStrategy authStrategy = AuthStrategy.find(xAuthType);
         if(Util.isNull(authStrategy))
-            throw new AuthorizingException(ServiceError.NOT_FOUND_APPROPRIATE_PROVIDER);
+            throw new AuthorizingException(ServiceStatus.NOT_FOUND_APPROPRIATE_PROVIDER);
         System.out.println("AuthCheckInterceptor <- authStrategy: " + authStrategy);
         StrategyService.apply(authStrategy);
 

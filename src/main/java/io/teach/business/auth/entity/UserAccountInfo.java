@@ -13,11 +13,13 @@ public class UserAccountInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String passphrase;
+
+    private String email;
+
+    private String phone;
 
     @OneToOne(mappedBy = "userAccount", fetch = FetchType.LAZY)
     private UserAuthInfo authInfo;
