@@ -7,29 +7,25 @@ import io.teach.infrastructure.http.body.StandardResponse;
 
 public class ErrorResponse implements StandardResponse {
 
-    @JsonProperty("err_code")
-    private Integer resCode;
+    @JsonProperty("result")
+    private String result;
 
-    @JsonProperty("cause")
+    @JsonProperty("message")
     @JsonInclude(Include.NON_EMPTY)
-    private String cause;
+    private String message;
 
-    private ErrorResponse(final int resCode, final String cause) {
-        this.resCode = resCode;
-        this.cause = cause;
+    private ErrorResponse(final String result, final String message) {
+        this.result = result;
+        this.message = message;
     }
 
     public static ErrorResponse create(final ServiceStatus error) {
-        return new ErrorResponse(error.getResCode(), error.getCause());
+        return new ErrorResponse(error.getResult(), error.getMessage());
     }
 
     @Override
-    public Integer resCode() {
-        return this.resCode;
+    public String result() {
+        return this.result;
     }
 
-    @Override
-    public String toString() {
-        return String.format("{\n\t\"res_code\": %d,\n\t\"cause\": \"%s\"\n}\n", this.resCode, this.cause);
-    }
 }

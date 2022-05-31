@@ -1,6 +1,7 @@
 package io.teach.infrastructure.config;
 
 import io.teach.infrastructure.interceptor.AuthCheckInterceptor;
+import io.teach.infrastructure.service.DefaultDynamicServiceProvider;
 import io.teach.infrastructure.service.StrategyService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,18 +23,19 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry
-                .addInterceptor(new AuthCheckInterceptor());
+                .addInterceptor(new AuthCheckInterceptor(new DefaultDynamicServiceProvider()));
     }
 
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .formLogin().disable()
                 .authorizeRequests(auth ->
                         auth
                                 .antMatchers(
-                                        "/api/v1/auth",
-                                        "/api/v1/common/auth/check")
+                                        "/api/v1/user/**",
+                                        "/api/v1/member/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(withDefaults());

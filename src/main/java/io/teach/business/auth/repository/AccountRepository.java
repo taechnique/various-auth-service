@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface AccountRepository extends JpaRepository<UserAccountInfo, Long> {
 
-    @Query("select ac from UserAccountInfo ac where ac.email = ?1")
-    UserAccountInfo findByEmail(String email);
+    @Query("select ac from UserAccountInfo ac where ac.loginId = ?1")
+    UserAccountInfo findLoginId(final String loginId);
 }

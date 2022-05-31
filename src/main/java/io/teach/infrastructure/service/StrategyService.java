@@ -7,11 +7,12 @@ import io.teach.infrastructure.util.Util;
 
 public class StrategyService {
 
-    public static void apply(final AuthStrategy strategy) throws Exception {
+    public static void apply(final AuthStrategy strategy) {
 
         AuthStrategyContextHolder.clearContext();
 
         AuthStrategyContext context = AuthStrategyContextHolder.createEmptyContext();
+
         if (Util.isNotNull(strategy))
             context.setStrategy(strategy);
         AuthStrategyContextHolder.setContext(context);

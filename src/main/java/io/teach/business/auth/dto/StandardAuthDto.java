@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class StandardAuthDto implements StandardResponse {
 
     @NotNull
-    private Integer resCode;
+    private String result;
 
     @NotNull
     private Long id;
@@ -25,7 +25,7 @@ public class StandardAuthDto implements StandardResponse {
     private String accessToken;
 
     @Override
-    public Integer resCode() {
-        return this.resCode;
+    public String result() {
+        return this.result;
     }
 }

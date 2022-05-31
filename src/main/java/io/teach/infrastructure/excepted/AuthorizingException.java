@@ -10,7 +10,7 @@ public class AuthorizingException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return error.getCause();
+        return error.getMessage();
     }
 
     public ServiceStatus getServiceError() {

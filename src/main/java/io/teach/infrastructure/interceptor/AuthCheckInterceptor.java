@@ -3,30 +3,25 @@ package io.teach.infrastructure.interceptor;
 import io.teach.business.auth.strategy.AuthStrategy;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
+import io.teach.infrastructure.service.DynamicServiceProvider;
 import io.teach.infrastructure.service.StrategyService;
 import io.teach.infrastructure.util.Util;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@RequiredArgsConstructor
 public class AuthCheckInterceptor implements HandlerInterceptor {
 
+    private final DynamicServiceProvider provider;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        final String obtainedAuthType = request.getHeader("X-AUTH-TYPE");
-        if(Util.isNull(obtainedAuthType))
-            throw new AuthorizingException(ServiceStatus.INVALID_REQUEST_HEADER);
-
-        final String xAuthType = obtainedAuthType.toUpperCase();
-        AuthStrategy authStrategy = AuthStrategy.find(xAuthType);
-        if(Util.isNull(authStrategy))
-            throw new AuthorizingException(ServiceStatus.NOT_FOUND_APPROPRIATE_PROVIDER);
-        System.out.println("AuthCheckInterceptor <- authStrategy: " + authStrategy);
-        StrategyService.apply(authStrategy);
+        //== URI 별 인증 체크 ==//
+        provider.judge(request);
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

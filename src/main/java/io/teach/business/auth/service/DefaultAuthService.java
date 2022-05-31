@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class DefaultAuthService extends AbstractAuthService {
 
     public static final String BEAN_NAME = "defaultAuthService";
+
     private final AuthRepository repo;
     private final Printer out;
 

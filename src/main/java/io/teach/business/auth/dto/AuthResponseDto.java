@@ -13,13 +13,13 @@ import javax.validation.constraints.NotNull;
 public class AuthResponseDto implements StandardResponse {
 
     @NotNull
-    private Integer resCode;
+    private String result;
 
     @JsonInclude(Include.NON_NULL)
     private String usable;
 
     @Override
-    public Integer resCode() {
-        return this.resCode;
+    public String result() {
+        return this.result;
     }
 }

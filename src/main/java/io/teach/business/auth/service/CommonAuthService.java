@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.Pattern;
 
+import static io.teach.infrastructure.excepted.ServiceStatus.success;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class CommonAuthService {
     public StandardResponse checkEmailAndSend(final String type, final String info) throws AuthorizingException {
         final String emailRegex = "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
-        if (!Pattern.compile(emailRegex).matcher(info).matches())
+        if ( ! Pattern.compile(emailRegex).matcher(info).matches())
             throw new AuthorizingException(ServiceStatus.INVALID_EMAIL_FORM);
 
         return checkEmail(info);
@@ -35,16 +37,11 @@ public class CommonAuthService {
 
     private StandardResponse checkEmail(final String email) {
 
-        final UserAccountInfo found = accountRepo.findByEmail(email);
-        if(Util.isNotNull(found)) {
-            log.info("There is already existed user with email: \"{}\"", email);
-            throw new AuthorizingException(ServiceStatus.ALREADY_EXIST_EMAIL);
-        }
 
         //== 인증 이메일 발송 ==//
 
         return AuthResponseDto.builder()
-                .resCode(ServiceStatus.SUCCESS.getResCode())
+                .result(success())
                 .usable(email)
                 .build();
     }
