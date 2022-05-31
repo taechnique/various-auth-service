@@ -16,7 +16,7 @@ public class AuthExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationExceptions(final MethodArgumentNotValidException e) {
 
         final ServiceStatus serviceStatus = new AuthorizingException(ServiceStatus.INVALID_REQUEST_BODY).getServiceError();
-
+        System.out.println("Invalid Method Argument: "+ e);
         return ResponseEntity
                 .status(serviceStatus.getStatus())
                 .body(ErrorResponse.create(serviceStatus));

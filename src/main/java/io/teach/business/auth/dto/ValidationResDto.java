@@ -12,6 +12,6 @@ public class ValidationResDto implements StandardResponse {
 
     @Override
     public String result() {
-        return null;
+        return this.result;
     }
 }

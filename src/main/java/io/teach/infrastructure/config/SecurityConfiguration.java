@@ -20,6 +20,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration implements WebMvcConfigurer {
 
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry
@@ -35,7 +36,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         auth
                                 .antMatchers(
                                         "/api/v1/user/**",
-                                        "/api/v1/member/**")
+                                        "/api/v1/member/**",
+                                        "/api/v1/infra/email/verify/send")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(withDefaults());

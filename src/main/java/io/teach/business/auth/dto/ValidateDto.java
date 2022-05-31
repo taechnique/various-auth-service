@@ -21,8 +21,10 @@ public class ValidateDto implements StandardRequest {
     @NotNull
     private TrackingDto tracking;
 
+
     @Override
     public TrackingDto tracking() {
         return this.tracking;
     }
+
 }

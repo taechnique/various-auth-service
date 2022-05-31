@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class DefaultDynamicServiceProvider extends AbstractDynamicServiceProvider {
 
-
-
     public void judge(final HttpServletRequest req) throws AuthorizingException {
         if(Util.isNull(req))
             throw new AuthorizingException(ServiceStatus.INVALID_ACCESSED);

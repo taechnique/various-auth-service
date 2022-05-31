@@ -7,6 +7,7 @@ import io.teach.business.auth.repository.AccountRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
 import io.teach.infrastructure.http.body.StandardResponse;
+import io.teach.infrastructure.util.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,13 @@ public class MemberJoinService {
 
         final String type = dto.getType();
         final String value = dto.getValue();
+        final AccountType accountType = AccountType.typeOf(type);
 
-        switch (AccountType.typeOf(type)) {
+        if(Util.isNull(accountType))
+            throw new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
+
+
+        switch (accountType) {
             case ID: {
                 validateService.checkDuplicationOfId(value);
                 break;

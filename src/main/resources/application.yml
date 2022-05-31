@@ -20,3 +20,8 @@ spring:
       max-wait: 10000
       max-active: 50 # 톰캣 커넥션 제한
       # test-on-borrow: true # 풀에서 빌리기젼 커넥션 체크
+
+verify:
+  email:
+    today-max: 5 # 당일 이메일 인증가능 횟수 제한
+    expired-minute: 10 # 인증 유효시간 10 분

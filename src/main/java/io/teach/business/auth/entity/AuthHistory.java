@@ -1,6 +1,5 @@
 package io.teach.business.auth.entity;
 
-import io.teach.business.auth.constant.AccountType;
 import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.infrastructure.excepted.AuthorizingException;
@@ -21,9 +20,9 @@ public class AuthHistory {
     @Id @GeneratedValue
     private Long id;
 
-    private String group;
+    private String groupType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "verify_info_id", nullable = false)
     private VerifyInfo verifyInfo;
 
@@ -36,15 +35,24 @@ public class AuthHistory {
     @Column(nullable = false)
     private LocalDateTime sendTime;
 
+    @Column(nullable = false)
+    private LocalDateTime expiredTime;
+
     private LocalDateTime verifyTime;
 
-    public void setVerifyInfo(VerifyInfo verifyInfo) {
+    public void setVerifyInfo(final VerifyInfo verifyInfo) {
+
         this.verifyInfo = verifyInfo;
     }
 
-    public Boolean isInToday
+    public Boolean wasItSentToday () {
+        final LocalDateTime now = LocalDateTime.now();
 
-    public static AuthHistory createHistory(final String group, final VerifyType verifyType) {
+        return (now.with(LocalDateTime.MIN).isAfter(this.sendTime) &&
+                now.with(LocalDateTime.MAX).isBefore(this.sendTime));
+    }
+
+    public static AuthHistory createHistory(final String group, final VerifyType verifyType, final int expiredMinute) {
         Assert.notNull(group, "Group cannot be null");
         Assert.notNull(verifyType, "verify type cannot be null.");
 
@@ -52,10 +60,12 @@ public class AuthHistory {
         final HistoryGroup historyGroup = HistoryGroup.groupOf(group).orElseThrow(() ->
                 new AuthorizingException(ServiceStatus.INVALID_PARAMETER));
 
-        history.group = historyGroup.getGroup();
+        history.groupType = historyGroup.getGroup();
         history.verifyType = verifyType;
         history.description = verifyType.getDescription();
-        history.sendTime = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        history.sendTime = now;
+        history.expiredTime = now.plusMinutes(expiredMinute);
 
         return history;
     }

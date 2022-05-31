@@ -1,5 +1,7 @@
 package io.teach.infrastructure.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.taech.print.impl.Printer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,4 +13,6 @@ public class ServiceBeanConfig {
     public Printer printer() {
         return new Printer();
     }
+
+
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,8 +27,8 @@ public class VerifyInfo {
     @Column(nullable = false)
     private String verifyNumber;
 
-    @OneToMany(mappedBy = "verifyInfo")
-    private List<AuthHistory> authHistory;
+    @OneToMany(mappedBy = "verifyInfo", fetch = FetchType.LAZY)
+    private List<AuthHistory> authHistory = new ArrayList<>();
 
     public static VerifyInfo createVerifyInfo(final String verifyTarget, final VerifyType verifyType) {
         final VerifyInfo verifyInfo = new VerifyInfo();
