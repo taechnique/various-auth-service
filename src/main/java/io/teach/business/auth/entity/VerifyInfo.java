@@ -22,6 +22,7 @@ public class VerifyInfo {
     private String verifyTarget;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private VerifyType verifyType;
 
     @Column(nullable = false)

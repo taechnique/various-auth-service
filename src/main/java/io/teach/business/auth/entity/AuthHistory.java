@@ -27,6 +27,7 @@ public class AuthHistory {
     private VerifyInfo verifyInfo;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private VerifyType verifyType;
 
     @Column(nullable = false)
@@ -48,8 +49,8 @@ public class AuthHistory {
     public Boolean wasItSentToday () {
         final LocalDateTime now = LocalDateTime.now();
 
-        return (now.with(LocalDateTime.MIN).isAfter(this.sendTime) &&
-                now.with(LocalDateTime.MAX).isBefore(this.sendTime));
+        return (now.with(LocalDateTime.MIN).isBefore(this.sendTime) &&
+                now.with(LocalDateTime.MAX).isAfter(this.sendTime));
     }
 
     public static AuthHistory createHistory(final String group, final VerifyType verifyType, final int expiredMinute) {

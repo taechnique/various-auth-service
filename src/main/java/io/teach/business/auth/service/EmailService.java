@@ -50,7 +50,11 @@ public class EmailService {
             if(sentHistory.size() < verifyProperties.getEmail().getTodayMax()) {
 
                 found.addAuthHistory(history);
+                authHistoryRepository.save(history);
+
                 System.out.println("한개 더 추가");
+            } else {
+                System.out.println("오늘은 이미 모든 기회를 다썼엉.");
             }
 
             System.out.println("size after send: " + sentHistory.size());
