@@ -1,9 +1,8 @@
 package io.teach.business.auth.strategy;
 
-import io.teach.business.auth.service.AppleAuthService;
-import io.teach.business.auth.service.AuthService;
-import io.teach.business.auth.service.DefaultAuthService;
-import io.teach.business.auth.service.KakaoAuthService;
+import io.teach.business.member.service.AppleAuthService;
+import io.teach.business.member.service.DefaultAuthService;
+import io.teach.business.member.service.KakaoAuthService;
 
 import java.util.Arrays;
 import java.util.Map;

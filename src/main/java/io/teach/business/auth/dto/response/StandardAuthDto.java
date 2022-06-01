@@ -1,4 +1,4 @@
-package io.teach.business.auth.dto;
+package io.teach.business.auth.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.teach.infrastructure.http.body.StandardResponse;

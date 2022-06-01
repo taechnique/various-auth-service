@@ -4,9 +4,11 @@ import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
+import io.teach.infrastructure.util.RandomUtil;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthHistory {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String groupType;
@@ -34,6 +36,9 @@ public class AuthHistory {
     private String description;
 
     @Column(nullable = false)
+    private String verifyPermitToken;
+
+    @Column(nullable = false)
     private LocalDateTime sendTime;
 
     @Column(nullable = false)
@@ -46,14 +51,7 @@ public class AuthHistory {
         this.verifyInfo = verifyInfo;
     }
 
-    public Boolean wasItSentToday () {
-        final LocalDateTime now = LocalDateTime.now();
-
-        return (now.with(LocalDateTime.MIN).isBefore(this.sendTime) &&
-                now.with(LocalDateTime.MAX).isAfter(this.sendTime));
-    }
-
-    public static AuthHistory createHistory(final String group, final VerifyType verifyType, final int expiredMinute) {
+    public static AuthHistory createHistory(final String group, final VerifyType verifyType, final int expiredSecond) {
         Assert.notNull(group, "Group cannot be null");
         Assert.notNull(verifyType, "verify type cannot be null.");
 
@@ -64,11 +62,20 @@ public class AuthHistory {
         history.groupType = historyGroup.getGroup();
         history.verifyType = verifyType;
         history.description = verifyType.getDescription();
+        history.verifyPermitToken = RandomUtil.randomToken();
         LocalDateTime now = LocalDateTime.now();
         history.sendTime = now;
-        history.expiredTime = now.plusMinutes(expiredMinute);
+        history.expiredTime = now.plusSeconds(expiredSecond);
 
         return history;
+    }
+
+
+    public Boolean wasItSentToday() {
+        final LocalDateTime now = LocalDateTime.now();
+
+        return (now.with(LocalDateTime.MIN).isBefore(this.sendTime) &&
+                now.with(LocalDateTime.MAX).isAfter(this.sendTime));
     }
 
 }

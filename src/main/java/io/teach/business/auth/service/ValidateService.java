@@ -1,11 +1,9 @@
 package io.teach.business.auth.service;
 
-import io.teach.business.auth.dto.ValidationResDto;
-import io.teach.business.auth.entity.UserAccountInfo;
-import io.teach.business.auth.repository.AccountRepository;
+import io.teach.business.member.entity.UserAccountInfo;
+import io.teach.business.member.repository.AccountRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
-import io.teach.infrastructure.http.body.StandardResponse;
 import io.teach.infrastructure.util.Util;
 import io.teach.infrastructure.util.ValidUtil;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import static io.teach.infrastructure.excepted.ServiceStatus.success;
 
 @Service
 @Slf4j

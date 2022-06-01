@@ -1,8 +1,8 @@
-package io.teach.business.auth.service;
+package io.teach.business.member.service;
 
 import io.taech.print.impl.Printer;
-import io.teach.business.auth.dto.AuthRequestDto;
-import io.teach.business.auth.repository.AuthRepository;
+import io.teach.business.auth.dto.request.AuthRequestDto;
+import io.teach.business.member.repository.AuthRepository;
 import io.teach.infrastructure.http.body.StandardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

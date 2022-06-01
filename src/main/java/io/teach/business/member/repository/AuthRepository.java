@@ -1,6 +1,6 @@
-package io.teach.business.auth.repository;
+package io.teach.business.member.repository;
 
-import io.teach.business.auth.entity.UserAuthInfo;
+import io.teach.business.member.entity.UserAuthInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuthRepository extends JpaRepository<UserAuthInfo, Long> {

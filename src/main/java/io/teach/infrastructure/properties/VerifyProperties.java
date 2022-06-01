@@ -12,16 +12,18 @@ import javax.validation.constraints.Min;
 @ConfigurationProperties("verify")
 public class VerifyProperties {
 
-    private Email email;
+    private EmailPolicy emailPolicy;
 
 
 
     @Data
-    public static class Email {
+    public static class EmailPolicy {
 
         @Min(1)
         private Integer todayMax;
 
-        private Integer expiredMinute;
+        private Integer expiredSecond;
+
+        private Integer codeLength;
     }
 }

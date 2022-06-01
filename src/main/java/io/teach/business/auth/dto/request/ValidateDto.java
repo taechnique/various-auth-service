@@ -1,4 +1,4 @@
-package io.teach.business.auth.dto;
+package io.teach.business.auth.dto.request;
 
 import io.teach.infrastructure.http.body.StandardRequest;
 import io.teach.infrastructure.http.body.TrackingDto;

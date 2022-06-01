@@ -1,23 +1,15 @@
-package io.teach.business.auth.controller;
+package io.teach.business.member.controller;
 
-import io.teach.business.auth.service.AuthService;
-import io.teach.business.auth.service.AuthServiceFactory;
-import io.teach.business.auth.strategy.AuthStrategy;
-import io.teach.infrastructure.context.auth.AuthStrategyContextHolder;
+import io.teach.business.member.service.AuthService;
 import io.teach.infrastructure.excepted.AuthorizingException;
-import io.teach.business.auth.dto.AuthRequestDto;
-import io.teach.business.auth.dto.StandardAuthDto;
+import io.teach.business.auth.dto.request.AuthRequestDto;
 import io.teach.infrastructure.http.body.StandardResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Map;
 
-import static io.teach.business.auth.controller.AuthorizationController.BEAN_NAME;
+import static io.teach.business.member.controller.AuthorizationController.BEAN_NAME;
 
 @RestController(BEAN_NAME)
 @RequestMapping("/api/v1/user")

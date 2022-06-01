@@ -1,4 +1,4 @@
-package io.teach.business.auth.dto;
+package io.teach.business.auth.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

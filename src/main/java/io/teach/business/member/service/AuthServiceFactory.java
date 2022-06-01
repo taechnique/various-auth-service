@@ -1,12 +1,9 @@
-package io.teach.business.auth.service;
+package io.teach.business.member.service;
 
 import io.teach.business.auth.strategy.AuthStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Constructor;
 
 @Component
 @RequiredArgsConstructor

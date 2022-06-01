@@ -1,4 +1,4 @@
-package io.teach.business.auth.entity;
+package io.teach.business.member.entity;
 
 import lombok.Getter;
 

@@ -1,9 +1,8 @@
 package io.teach.business.auth.service;
 
 import io.teach.business.auth.constant.AccountType;
-import io.teach.business.auth.dto.ValidateDto;
-import io.teach.business.auth.dto.ValidationResDto;
-import io.teach.business.auth.repository.AccountRepository;
+import io.teach.business.auth.dto.request.ValidateDto;
+import io.teach.business.auth.dto.response.ValidationResDto;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
 import io.teach.infrastructure.http.body.StandardResponse;

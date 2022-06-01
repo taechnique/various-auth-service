@@ -1,7 +1,7 @@
 package io.teach.business.auth.controller;
 
 
-import io.teach.business.auth.dto.ValidateDto;
+import io.teach.business.auth.dto.request.ValidateDto;
 import io.teach.business.auth.service.MemberJoinService;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.http.body.StandardResponse;

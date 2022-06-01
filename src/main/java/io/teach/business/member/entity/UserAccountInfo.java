@@ -1,13 +1,17 @@
-package io.teach.business.auth.entity;
+package io.teach.business.member.entity;
 
 import io.teach.business.auth.constant.AccountProviderType;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserAccountInfo {
 
     @Id
@@ -15,6 +19,7 @@ public class UserAccountInfo {
     private Long id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private AccountProviderType accountType;
 
     @Column(unique = true)
@@ -25,7 +30,6 @@ public class UserAccountInfo {
     @Column(unique = true)
     private String passphrase;
 
-    @Column(unique = true)
     private String email;
 
     private String phone;
@@ -35,4 +39,12 @@ public class UserAccountInfo {
 
     private LocalDateTime createTime;
 
+    public static UserAccountInfo create(final String loginId, final String passphrase) {
+        UserAccountInfo info = new UserAccountInfo();
+
+        info.loginId = loginId;
+        info.passphrase = passphrase;
+
+        return info;
+    }
 }

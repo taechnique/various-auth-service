@@ -1,6 +1,6 @@
-package io.teach.business.auth.service;
+package io.teach.business.member.service;
 
-import io.teach.business.auth.dto.AuthRequestDto;
+import io.teach.business.auth.dto.request.AuthRequestDto;
 import io.teach.infrastructure.http.body.StandardResponse;
 
 public interface AuthService {

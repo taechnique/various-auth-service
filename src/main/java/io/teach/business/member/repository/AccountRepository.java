@@ -1,6 +1,6 @@
-package io.teach.business.auth.repository;
+package io.teach.business.member.repository;
 
-import io.teach.business.auth.entity.UserAccountInfo;
+import io.teach.business.member.entity.UserAccountInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

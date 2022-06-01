@@ -1,4 +1,4 @@
-package io.teach.business.auth.dto;
+package io.teach.business.auth.dto.request;
 
 import lombok.Data;
 
