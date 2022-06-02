@@ -7,9 +7,7 @@
         src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"
         integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY="
         crossorigin="anonymous"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link href="https://webfontworld.github.io/yanolja/YanoljaYache.css" rel="stylesheet">
 <script>
 
     var item_arr
@@ -49,12 +47,11 @@
 
         const top = ($(window).height() - $(".popup-wrap").outerHeight()) / 2 + $(window).scrollTop() - 200
 
-        $('.popup-wrap').css('top', top + 'px')
+        $('.popup-wrap').css('top', 0 + 'px')
     }
 
     function popUpProess(loc) {
         $('#popup').remove()
-        $('sect3').css('display', 'none')
 
         let parent = $(loc).parent()
         let parent_loc = loc.replace('#', '') + '_parent'
@@ -116,7 +113,7 @@
     }
 
     function hideDefault() {
-        $('#resources-magok-api').parent().css('display', 'none')
+        $('#yanolja-auth-service-api').parent().css('display', 'none')
     }
 
     function fn_move_scroll(each_id) {
@@ -217,6 +214,10 @@
         --point-color: #434456f0;
     }
 
+    #content {
+        min-height: 700px;
+    }
+
     .popup-wrap {
         width: 1000px;
         overflow-x: auto;
@@ -251,11 +252,11 @@
 
     .popup-wrap .popup_body .hljs {
         background: #444c56ad;
-        color: #f47067;
+        color: #dbdbdb;
     }
 
     .popup-wrap .popup_body .hljs-string, .hljs-doctag {
-        color: #adbac7;
+        color: #3ebe4b;
     }
 
     .popup-wrap .popup_body .hljs-tag, .hljs-name, span.hljs-attribute {
@@ -291,13 +292,15 @@
     .popup-wrap .popup_body .title {
         color: #e8978b;
         font-style: normal;
+        font-size: 1.3rem;
     }
 
     .popup-wrap .popup_body .fixed {
         position: absolute;
         text-align: center;
         padding: 20px;
-        top: 57.59px;
+        /*top: 57.59px;*/
+        top: 40px;
         left: 0px;
         height: 67.19px;
         width: 100%;
@@ -360,7 +363,7 @@
     }
 
     * {
-        font-family: 'IBM Plex Sans KR', sans-serif !important;
+        font-family: 'YanoljaYache', 'IBM Plex Sans KR', sans-serif !important;
     }
 
     .popup_body::-webkit-scrollbar {

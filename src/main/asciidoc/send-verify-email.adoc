@@ -13,7 +13,7 @@ include::{snippets}/infra-controller-test/send-verify-number-for-email/request-f
 
 include::{snippets}/infra-controller-test/send-verify-number-for-email/http-response.adoc[]
 
-[[send_verify_email_request_fields]]
+[[send_verify_email_response_fields]]
 *응답 규격*
 
 include::{snippets}/infra-controller-test/send-verify-number-for-email/response-fields.adoc[]
@@ -21,5 +21,5 @@ include::{snippets}/infra-controller-test/send-verify-number-for-email/response-
 [[send_verify_email_error]]
 *서비스 예외*
 
-.최대 요청 가능한 횟수초과
+.🚨 최대 요청 가능한 횟수초과
 include::{snippets}/infra-controller-test/send-verify-number-for-email1/http-response.adoc[]

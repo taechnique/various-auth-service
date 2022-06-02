@@ -26,6 +26,3 @@ verify:
     today-max: 5 # 당일 이메일 인증가능 횟수 제한
     expired-second: 600 # 인증 유효시간 10분
     code-length: 6 # 인증번호 길이
-
-logging:
-  interceptor:

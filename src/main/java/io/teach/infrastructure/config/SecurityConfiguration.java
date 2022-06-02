@@ -2,22 +2,18 @@ package io.teach.infrastructure.config;
 
 import io.teach.infrastructure.interceptor.AuthCheckInterceptor;
 import io.teach.infrastructure.service.DefaultDynamicServiceProvider;
-import io.teach.infrastructure.service.StrategyService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
-@EnableWebMvc
 @Configuration
 public class SecurityConfiguration implements WebMvcConfigurer {
 
@@ -26,8 +22,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry
-                .addInterceptor(new AuthCheckInterceptor(new DefaultDynamicServiceProvider()))
-                .excludePathPatterns("/docs/index.html");
+                .addInterceptor(new AuthCheckInterceptor(new DefaultDynamicServiceProvider()));
     }
 
     @Bean
@@ -40,12 +35,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                 .antMatchers(
                                         "/api/v1/user/**",
                                         "/api/v1/member/**",
-                                        "/api/v1/infra/email/verify/send",
-                                        "/docs/index.html")
+                                        "/api/v1/infra/email/verify/send")
                                 .permitAll()
                                 .anyRequest().authenticated())
-                .httpBasic(withDefaults()).sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .httpBasic().disable();
 
         return http.build();
     }
@@ -53,7 +46,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Bean
     public WebSecurityCustomizer securityCustomizer() {
         return (web) -> web.ignoring()
-                .antMatchers("/api/v1/auth","/docs/index.html")
+                .antMatchers("/api/v1/auth", "/api/v1/docs/index.html")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }

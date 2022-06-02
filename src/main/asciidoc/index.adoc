@@ -13,4 +13,4 @@
 
 [[member-join-api-1]]
 ==== 1. 인증 메일전송
-include::infra/send-verify-email.adoc[]
+include::send-verify-email.adoc[]

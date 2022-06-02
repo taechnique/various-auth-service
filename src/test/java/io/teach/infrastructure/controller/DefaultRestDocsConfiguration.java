@@ -1,6 +1,8 @@
 package io.teach.infrastructure.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.teach.business.auth.controller.InfraController;
+import io.teach.business.auth.controller.MemberJoinController;
 import io.teach.infrastructure.config.RestDocsConfiguration;
 import io.teach.infrastructure.http.body.TrackingDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +34,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-@WebMvcTest
-@AutoConfigureRestDocs(outputDir = "target/snippets")
+@WebMvcTest(controllers = {
+        InfraController.class,
+        MemberJoinController.class
+})
+@AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 @AutoConfigureMockMvc
 @Import(RestDocsConfiguration.class)
 @ExtendWith(RestDocumentationExtension.class)
