@@ -3,11 +3,13 @@ package io.teach.infrastructure.config;
 import io.teach.infrastructure.interceptor.AuthCheckInterceptor;
 import io.teach.infrastructure.service.DefaultDynamicServiceProvider;
 import io.teach.infrastructure.service.StrategyService;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,7 +26,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry
-                .addInterceptor(new AuthCheckInterceptor(new DefaultDynamicServiceProvider()));
+                .addInterceptor(new AuthCheckInterceptor(new DefaultDynamicServiceProvider()))
+                .excludePathPatterns("/docs/index.html");
     }
 
     @Bean
@@ -37,16 +40,20 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                 .antMatchers(
                                         "/api/v1/user/**",
                                         "/api/v1/member/**",
-                                        "/api/v1/infra/email/verify/send")
+                                        "/api/v1/infra/email/verify/send",
+                                        "/docs/index.html")
                                 .permitAll()
                                 .anyRequest().authenticated())
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults()).sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }
 
     @Bean
     public WebSecurityCustomizer securityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/api/v1/auth");
+        return (web) -> web.ignoring()
+                .antMatchers("/api/v1/auth","/docs/index.html")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }

@@ -1,0 +1,386 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossOrigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"
+        integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY="
+        crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<script>
+
+    var item_arr
+    var paragraph
+
+    $(() => {
+
+        hideDefault()
+
+        $('#toc ul:not(.sectlevel3) a').click((e) => {
+            e.preventDefault()
+        })
+
+        const aTag = document.querySelectorAll('#toc .sectlevel3 a')
+        aTag.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault()
+                const loc_link = e.target.getAttribute('href')
+                popUpProess(loc_link)
+            })
+        })
+
+        $(document).mouseup(function (e) {
+            var popup = $("#popup")
+            if (popup.has(e.target).length === 0) {
+                $('#popup').fadeOut(400)
+            }
+        })
+
+        $(window).scroll(() => {
+            fixedPopUp()
+        })
+        $("#popup").draggable({'cancel':'.popup-wrap .popup_body'})
+    })
+
+    function fixedPopUp() {
+
+        const top = ($(window).height() - $(".popup-wrap").outerHeight()) / 2 + $(window).scrollTop() - 200
+
+        $('.popup-wrap').css('top', top + 'px')
+    }
+
+    function popUpProess(loc) {
+        $('#popup').remove()
+        $('sect3').css('display', 'none')
+
+        let parent = $(loc).parent()
+        let parent_loc = loc.replace('#', '') + '_parent'
+        const pattern = /(Table [0-9]+?)\./g
+
+        parent.wrap('<div id=' + parent_loc + '></div>')
+        const target_html = $('#' + parent_loc).html().replace(pattern, '')
+
+        parent.unwrap()
+
+        const title = $(loc + ' a').text()
+
+        const popup_wrap = '<div class="popup-wrap" id="popup"></div>'
+        const popup_head = '<div class="popup_head">' + title + '</div>'
+        const popup_body = '<div class="popup_body">' + target_html + '</div>'
+        const popup_footer = '<div class="popup_footer"></div>'
+
+        $('#content').append(popup_wrap)
+        $('.popup-wrap').append(popup_head, popup_body, popup_footer)
+        $('.popup-wrap ' + loc).remove()
+
+        const items = document.querySelectorAll('.popup_body .sect3 .paragraph')
+        items.forEach((item, index) => {
+            const each_id = item.id.trim()
+            const item_text = item.textContent
+
+            let menu = '<span class ="menu-item">' +
+                '<a class="' + each_id + '" onclick="fn_move_scroll(\'' + each_id + '\')">' + item_text + '</a>' +
+                '</span>'
+            $('.popup_footer').append(menu)
+        })
+
+        $('.popup_body').scroll(() => {
+            fn_fix_title()
+        })
+
+        $(loc).css('display', 'none')
+        fixedPopUp()
+        $('#popup').hide()
+        $('#popup').fadeIn(400)
+        fn_init_map()
+
+        const elem = document.querySelectorAll('.popup-wrap .popup_footer a');
+        elem.forEach((item) => {
+            item.addEventListener('mouseover', function () {
+                if (this.classList.contains('active')) {
+                    return false
+                }
+                this.classList.add('active');
+            });
+
+            item.addEventListener('mouseleave', function () {
+                if (!this.classList.contains('active')) {
+                    return false
+                }
+                this.classList.remove('active');
+            });
+        })
+    }
+
+    function hideDefault() {
+        $('#resources-magok-api').parent().css('display', 'none')
+    }
+
+    function fn_move_scroll(each_id) {
+        const scroll_top = fn_get_scroll_top(each_id)
+        $('.popup_body').animate({scrollTop: scroll_top}, 600)
+    }
+
+    function fn_get_scroll_top(each_id) {
+
+        const body_height = $('.popup_body .sect3').outerHeight()
+        const children = $('.popup_body .sect3').children()
+        var totalHeight = 0
+        children.each(function () {
+            const height = $(this).outerHeight()
+            const e_id = $(this).attr('id')
+
+            totalHeight += (height + 20)
+            if (e_id == each_id) {
+
+                return false
+            }
+        })
+
+        totalHeight -= 153.19
+        return (totalHeight / body_height + totalHeight % body_height)
+    }
+
+    function fn_init_map() {
+        item_arr = new Array()
+        paragraph = new Array()
+        const body_height = $('.popup_body .sect3').outerHeight()
+        const children = $('.popup_body .sect3').children()
+        //body padding 값
+        var totalHeight = 20
+        children.each(function (i) {
+            const height = $(this).outerHeight()
+            var e_id = $(this).attr('id')
+            var item = new Object()
+
+            totalHeight += height
+            if (e_id != '') {
+
+                if (e_id != undefined) {
+                    item.id = e_id
+                    item.height = totalHeight
+                    paragraph.push(item)
+                }
+                e_id = e_id === undefined ? 'temp_id_' + i : e_id
+                totalHeight += 20
+
+                item_arr.push(e_id)
+
+            }
+        })
+
+        var item = new Object()
+        item.id = 'last_id'
+        item.height = totalHeight
+        paragraph.push(item)
+        fn_fix_title()
+    }
+
+    function fn_fix_title() {
+
+        const current_scroll = $('.popup_body').scrollTop()
+        const start_of_title = paragraph[0].height - 20
+        for (var i = 0; i < paragraph.length; i++) {
+            if (i < paragraph.length - 1) {
+                const next = (paragraph[i + 1].height - start_of_title) - 20
+                if (current_scroll < next) {
+                    fn_active_item(paragraph[i].id)
+                    return false
+                }
+            }
+        }
+
+    }
+
+    function fn_active_item(item_id) {
+        $('.temp-space').remove()
+
+        $('.popup_body .fixed').removeClass('fixed')
+        $('.popup_footer .fixed-active').removeClass('fixed-active')
+
+        let $toBeActived = $('.popup_body #' + item_id)
+        $toBeActived.before('<div class="temp-space"></div>')
+        $('.popup_body #' + item_id).addClass('fixed')
+        $('.popup_footer .' + item_id).addClass('fixed-active')
+
+
+    }
+
+</script>
+<style>
+
+    :root {
+        --main-bg-color: #444c56;
+        --point-color: #434456f0;
+    }
+
+    .popup-wrap {
+        width: 1000px;
+        overflow-x: auto;
+        border-radius: 10px;
+        position: absolute;
+        box-shadow: 5px 10px 10px 1px rgba(0, 0, 0, .3);
+        justify-content: center;
+        left: 0;
+        height: 800px;
+        background-color: var(--point-color);
+        padding: 0px 0px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden;
+    }
+
+    .popup-wrap .popup_head {
+        background-color: #444c56;
+        padding: 20px 20px;
+        color: white;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: move;
+    }
+
+    .popup-wrap .popup_body {
+        padding: 0px 20px;
+        overflow-y: auto;
+        height: 100%;
+        color: white;
+    }
+
+    .popup-wrap .popup_body .hljs {
+        background: #444c56ad;
+        color: #f47067;
+    }
+
+    .popup-wrap .popup_body .hljs-string, .hljs-doctag {
+        color: #adbac7;
+    }
+
+    .popup-wrap .popup_body .hljs-tag, .hljs-name, span.hljs-attribute {
+        color: #dcbdfb;
+
+    }
+
+    .popup-wrap .popup_body .hljs-keyword, .hljs-selector-tag, .hljs-subst {
+        color: #8bacf8;
+        font-weight: bold;
+    }
+    .popup-wrap .popup_body .hljs-title, .hljs-section, .hljs-selector-id {
+        color: #d5c4c4;
+        font-weight: normal;
+    }
+
+    .popup-wrap .popup_body .tableblock thead tr {
+        background: #adbac7;
+    }
+
+    .popup-wrap .popup_body .tableblock tbody tr {
+        background: #434456;
+    }
+
+    .popup-wrap .popup_body .tableblock tbody td {
+        color: #adbac7;
+    }
+
+    .popup-wrap .popup_body .tableblock tbody td code {
+        color: #adbac7;
+    }
+
+    .popup-wrap .popup_body .title {
+        color: #e8978b;
+        font-style: normal;
+    }
+
+    .popup-wrap .popup_body .fixed {
+        position: absolute;
+        text-align: center;
+        padding: 20px;
+        top: 57.59px;
+        left: 0px;
+        height: 67.19px;
+        width: 100%;
+        z-index: 1;
+        background: #444c569c;
+    }
+
+    .popup-wrap .popup_body .fixed p {
+        margin: 0px;
+    }
+
+    .popup-wrap .popup_footer {
+        padding: 20px 20px;
+        color: white;
+    }
+
+    .popup-wrap .popup_footer a {
+        margin: 0px 15px;
+        padding: 5px 10px;
+        color: #86ff8f;
+        text-decoration: none;
+        transition-duration: .6s;
+        border-radius: 10px;
+    }
+
+    .popup-wrap .popup_footer a:link {
+        color: green;
+        text-decoration: none;
+    }
+
+    .popup-wrap .popup_footer a:visited {
+        color: pink;
+        text-decoration: none;
+    }
+
+    .popup-wrap .popup_footer .active {
+        text-decoration: none;
+        background-color: transparent;
+        box-shadow: 5px 10px 10px 1px rgba(.3, .3, .3, .3);
+        transition: .6s;
+    }
+
+    .popup-wrap .popup_footer .fixed-active {
+        text-decoration: none;
+        background-color: transparent;
+        box-shadow: 5px 10px 10px 1px rgba(.3, .3, .3, .3);
+        transition: .6s;
+    }
+
+    .popup-wrap .popup_footer a:hover:not(.active) {
+        background-color: transparent;
+    }
+
+    .popup-wrap .popup_footer .active {
+        background-color: #535b6f;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    * {
+        font-family: 'IBM Plex Sans KR', sans-serif !important;
+    }
+
+    .popup_body::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .popup_body::-webkit-scrollbar-thumb {
+        background-color: #e1e1e1;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+
+    .popup_body::-webkit-scrollbar-track {
+        background-color: inherit;
+        border-radius: 10px;
+    }
+    .popup-wrap .temp-space {
+        height: 67.19px;
+        width: 100%;
+        display: block;
+    }
+</style>

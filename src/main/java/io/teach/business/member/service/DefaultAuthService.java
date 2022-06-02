@@ -1,6 +1,5 @@
 package io.teach.business.member.service;
 
-import io.taech.print.impl.Printer;
 import io.teach.business.auth.dto.request.AuthRequestDto;
 import io.teach.business.member.repository.AuthRepository;
 import io.teach.infrastructure.http.body.StandardResponse;
@@ -14,7 +13,6 @@ public class DefaultAuthService extends AbstractAuthService {
     public static final String BEAN_NAME = "defaultAuthService";
 
     private final AuthRepository repo;
-    private final Printer out;
 
     @Override
     public StandardResponse signup(AuthRequestDto dto) {

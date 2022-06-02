@@ -1,0 +1,16 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:docinfo: shared-head
+
+[[yanolja-auth-service-api]]
+== 회원 / 인증 API
+
+[[member-join-api]]
+=== 회원가입
+
+[[member-join-api-1]]
+==== 1. 인증 메일전송
+include::infra/send-verify-email.adoc[]

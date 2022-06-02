@@ -19,6 +19,6 @@ class ServiceErrorTest {
                 .collect(Collectors.groupingBy(ServiceStatus::getResCode, Collectors.counting()))
                 .entrySet().stream().filter(e -> e.getValue() > 1).map(Map.Entry::getKey).findFirst().orElse(null);
 
-        assertNull(duplicatedKey, String.format("ServiceError: \"%s\"이(가) 중복입니다.", ServiceStatus.findByCode(duplicatedKey)));
+        assertNull(duplicatedKey, "ServiceError: \""+duplicatedKey+"\"이(가) 중복입니다.");
     }
 }
