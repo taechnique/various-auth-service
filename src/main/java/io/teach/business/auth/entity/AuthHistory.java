@@ -78,4 +78,19 @@ public class AuthHistory {
                 now.with(LocalDateTime.MAX).isAfter(this.sendTime));
     }
 
+    public Boolean isExpired() {
+        final LocalDateTime now = LocalDateTime.now();
+
+        return now.isAfter(this.getExpiredTime());
+    }
+
+    public void verify(final String code) {
+        if(isExpired())
+            throw new AuthorizingException(ServiceStatus.INVALID_VERIFY_NUMBER);
+
+        final VerifyInfo verifyInfo = this.verifyInfo;
+
+        if( ! verifyInfo.getVerifyNumber().equals(code))
+            throw new AuthorizingException(ServiceStatus.INVALID_VERIFY_NUMBER);
+    }
 }

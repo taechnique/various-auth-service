@@ -1,0 +1,31 @@
+ifndef::subpath[]
+:subpath: ../../../../target/generated-snippets
+endif::[]
+
+[[validate_email_http_request]]
+*요청 정보*
+include::{subpath}/member-join-controller-test/check-duplication/http-request.adoc[]
+
+[[validate_email_request_fields]]
+*요청 규격*
+
+include::{subpath}/member-join-controller-test/check-duplication/request-fields.adoc[]
+
+[[validate_email_http_response]]
+*응답 정보*
+
+include::{subpath}/member-join-controller-test/check-duplication/http-response.adoc[]
+
+[[validate_email_response_fields]]
+*응답 규격*
+
+include::{subpath}/member-join-controller-test/check-duplication/response-fields.adoc[]
+
+[[validate_email_error]]
+*서비스 예외*
+
+.🚨 잘못된 타입 또는 입력값
+include::{subpath}/member-join-controller-test/check-duplication1/http-response.adoc[]
+
+.🚨 이미 사용중인 아이디
+include::{subpath}/member-join-controller-test/check-duplication2/http-response.adoc[]

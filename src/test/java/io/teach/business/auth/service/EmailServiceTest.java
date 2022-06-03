@@ -2,8 +2,10 @@ package io.teach.business.auth.service;
 
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.controller.dto.SendEmailDto;
+import io.teach.business.auth.dto.request.ConfirmEmailDto;
 import io.teach.business.auth.entity.AuthHistory;
 import io.teach.business.auth.entity.VerifyInfo;
+import io.teach.business.auth.repository.AuthHistoryRepository;
 import io.teach.business.auth.repository.VerifyInfoRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
@@ -41,6 +43,9 @@ class EmailServiceTest extends MockingTester {
     @Mock
     private VerifyInfoRepository verifyInfoRepository;
 
+    @Mock
+    private AuthHistoryRepository authHistoryRepository;
+
     @BeforeEach
     public void init() {
 
@@ -55,7 +60,7 @@ class EmailServiceTest extends MockingTester {
 
     @Test
     @DisplayName("[인증요청 이메일 전송] 하루 최대 요청가능한 횟수가 넘은 경우")
-    public void sendEmailForVerify2() throws Throwable {
+    public void sendEmailForVerify1() throws Throwable {
         /* Given */
         String id = "test@example.com";
         String group = "JOIN";
@@ -83,5 +88,24 @@ class EmailServiceTest extends MockingTester {
         /* Then */
         assertEquals(ServiceStatus.ALREADY_SPENT_ALL_EMAIL_CHANCE, actual.getServiceError());
 
+    }
+
+    @Test
+    @DisplayName("[이메일 인증번호 확인] 요청 이력이 존재하지 않는경우")
+    public void confirmEmailForVerify1() throws Throwable {
+        /* Given */
+        final ConfirmEmailDto input = ConfirmEmailDto.builder()
+                .code("414233")
+                .token("8512d9a0-4122-4fc8-a3ba-3c34b42b334e")
+                .build();
+
+        /* When */
+        when(authHistoryRepository.findByToken(input.getToken()))
+                .thenReturn(null);
+        final AuthorizingException actual = assertThrows(AuthorizingException.class, () ->
+                emailService.confirmEmailForVerify(input));
+
+        /* Then */
+        assertEquals(ServiceStatus.INVALID_PARAMETER, actual.getServiceError());
     }
 }

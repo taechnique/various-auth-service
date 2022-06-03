@@ -8,4 +8,5 @@ public interface VerifyInfoRepository extends JpaRepository<VerifyInfo, Long> {
 
     @Query("select vi from VerifyInfo vi where vi.verifyTarget = ?1")
     VerifyInfo findByTarget(String target);
+
 }

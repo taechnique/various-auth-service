@@ -35,7 +35,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                 .antMatchers(
                                         "/api/v1/user/**",
                                         "/api/v1/member/**",
-                                        "/api/v1/infra/email/verify/send")
+                                        "/api/v1/infra/email/verify/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic().disable();
@@ -46,7 +46,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Bean
     public WebSecurityCustomizer securityCustomizer() {
         return (web) -> web.ignoring()
-                .antMatchers("/api/v1/auth", "/api/v1/docs/index.html")
+                .antMatchers("/api/v1/auth", "/api/v1/docs/**")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }

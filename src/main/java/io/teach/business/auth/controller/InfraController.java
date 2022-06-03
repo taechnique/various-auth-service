@@ -1,6 +1,7 @@
 package io.teach.business.auth.controller;
 
 import io.teach.business.auth.controller.dto.SendEmailDto;
+import io.teach.business.auth.dto.request.ConfirmEmailDto;
 import io.teach.business.auth.service.EmailService;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.http.body.StandardResponse;
@@ -29,6 +30,17 @@ public class InfraController {
 
 
         final StandardResponse response = emailService.sendEmailForVerify(reqDto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/email/verify/confirm")
+    public ResponseEntity<StandardResponse> confirmEmailWithVerifyCode(
+            @Valid
+            @RequestBody
+            final ConfirmEmailDto reqDto) throws AuthorizingException {
+
+        final StandardResponse response = emailService.confirmEmailForVerify(reqDto);
 
         return ResponseEntity.ok(response);
     }

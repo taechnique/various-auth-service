@@ -5,6 +5,7 @@ import io.teach.business.auth.dto.request.ValidateDto;
 import io.teach.business.auth.dto.response.ValidationResDto;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
+import io.teach.infrastructure.http.body.DefaultResponse;
 import io.teach.infrastructure.http.body.StandardResponse;
 import io.teach.infrastructure.util.Util;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,6 @@ public class MemberJoinService {
             }
         }
 
-        return ValidationResDto.builder()
-                .result(success())
-                .build();
+        return DefaultResponse.ok();
     }
 }

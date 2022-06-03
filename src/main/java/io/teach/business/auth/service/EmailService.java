@@ -2,6 +2,7 @@ package io.teach.business.auth.service;
 
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.controller.dto.SendEmailDto;
+import io.teach.business.auth.dto.request.ConfirmEmailDto;
 import io.teach.business.auth.dto.response.CountModel;
 import io.teach.business.auth.dto.response.SendEmailResDto;
 import io.teach.business.auth.dto.response.SendEmailResultDto;
@@ -11,16 +12,21 @@ import io.teach.business.auth.repository.AuthHistoryRepository;
 import io.teach.business.auth.repository.VerifyInfoRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
+import io.teach.infrastructure.http.body.DefaultResponse;
 import io.teach.infrastructure.http.body.StandardResponse;
 import io.teach.infrastructure.properties.VerifyProperties;
 import io.teach.infrastructure.service.AsyncEmailTransferService;
 import io.teach.infrastructure.util.Util;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static io.teach.infrastructure.excepted.ServiceStatus.success;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -72,5 +78,20 @@ public class EmailService {
                 .result(success())
                 .data(SendEmailResultDto.make(codeLength, expiredSecond, history.getVerifyPermitToken(), CountModel.left(remain)))
                 .build();
+    }
+    @Transactional
+    public StandardResponse confirmEmailForVerify(final ConfirmEmailDto reqDto) {
+        final String code = reqDto.getCode();
+        final String token = reqDto.getToken();
+
+        final AuthHistory found = Optional.ofNullable(authHistoryRepository.findByToken(token))
+                .orElseThrow(() -> {
+                    log.info("토큰 [{}]의 인증 요청 이력이 존재하지 않습니다.", token);
+                    return new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
+                });
+
+        found.verify(code);
+
+        return DefaultResponse.ok();
     }
 }

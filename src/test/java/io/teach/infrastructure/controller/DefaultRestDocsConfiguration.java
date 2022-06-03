@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,6 +46,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class DefaultRestDocsConfiguration {
 
 
+    @MockBean
+    protected MemberJoinController memberJoinController;
+
+    @MockBean
+    protected InfraController infraController;
 
     private MockMvc mockMvc;
     private MockMvc errorMockMvc;
@@ -111,19 +117,19 @@ public class DefaultRestDocsConfiguration {
         return result;
     }
 
-    protected FieldDescriptor field(String name, String description) {
+    protected final FieldDescriptor field(String name, String description) {
         return field(name, description, false);
     }
 
-    protected FieldDescriptor field(String name, String description, int length) {
+    protected final FieldDescriptor field(String name, String description, int length) {
         return field(name, description, length, false);
     }
 
-    protected FieldDescriptor field(String name, String description, boolean optional) {
+    protected final FieldDescriptor field(String name, String description, boolean optional) {
         return field(name, description, 0, optional);
     }
 
-    protected FieldDescriptor field(String name, String description, int length, boolean optional) {
+    protected final FieldDescriptor field(String name, String description, int length, boolean optional) {
 
         FieldDescriptor descriptor = fieldWithPath(name)
                 .description(description)

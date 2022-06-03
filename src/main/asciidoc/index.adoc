@@ -4,6 +4,7 @@
 :toc: left
 :toclevels: 4
 :docinfo: shared-head
+:toc-title: 야놀자 인증 서비스
 
 [[yanolja-auth-service-api]]
 == 회원 / 인증 API
@@ -12,5 +13,10 @@
 === 회원가입
 
 [[member-join-api-1]]
-==== 1. 인증 메일전송
-include::send-verify-email.adoc[]
+==== 1. 이메일 중복검사
+include::{docdir}/infra/validate-email.adoc[]
+
+==== 2. 인증 메일전송
+include::{docdir}/infra/send-verify-email.adoc[]
+
+

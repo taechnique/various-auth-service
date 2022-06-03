@@ -19,7 +19,9 @@ public enum ServiceStatus {
     ALREADY_EXIST_LOGIN_ID(409, 6,"FAILED", "사용할 수 없는 회원 정보입니다. 다른정보로 다시 시도해주세요."),
     INVALID_PARAMETER(400, 7,"FAILED", "잘못된 입력값"),
     INVALID_ACCESSED(405, 8, "FAILED", "잘못된 접근"),
-    ALREADY_SPENT_ALL_EMAIL_CHANCE(400, 9, "FAILED", "하루 인증번호 전송 한도를 초과하였습니다.");
+    ALREADY_SPENT_ALL_EMAIL_CHANCE(400, 9, "FAILED", "인증 요청 한도를 초과하였습니다."),
+    INVALID_VERIFY_NUMBER(400, 10, "FAILED", "인증번호가 올바르지 않습니다.")
+    ;
 
 
     private int status;

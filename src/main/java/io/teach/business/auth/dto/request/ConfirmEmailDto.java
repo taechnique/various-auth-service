@@ -9,26 +9,26 @@ import lombok.Data;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class ValidateDto implements StandardRequest {
+public class ConfirmEmailDto implements StandardRequest {
 
     @NotEmpty
-    private String type;
+    @Pattern(regexp = "([0-9]{6})")
+    private String code;
 
     @NotEmpty
-    private String value;
+    private String token;
 
-    @Valid
     @NotNull
+    @Valid
     private TrackingDto tracking;
-
 
     @Override
     public TrackingDto tracking() {
         return this.tracking;
     }
-
 }

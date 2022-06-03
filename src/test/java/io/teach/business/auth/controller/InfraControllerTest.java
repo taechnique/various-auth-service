@@ -24,18 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class InfraControllerTest extends DefaultRestDocsConfiguration {
 
-    @MockBean
-    private InfraController controller;
-
-    @MockBean
-    private MemberJoinController memberJoinController;
 
     @Test
     @DisplayName("[이메일 인증 요청] 인증 이메일 정상 전송")
     public void sendVerifyNumberForEmail() throws Throwable {
         /* Given */
         final SendEmailDto request = SendEmailDto.builder()
-                .email("yanolja@example.com")
+                .email("taechnique@yanolja.com")
                 .group("JOIN")
                 .tracking(defaultTracking())
                 .build();
@@ -50,7 +45,7 @@ class InfraControllerTest extends DefaultRestDocsConfiguration {
                 .build();
 
         /* When */
-        when(controller.sendVerifyNumberForEmail(request))
+        when(infraController.sendVerifyNumberForEmail(request))
                 .thenReturn(ResponseEntity.ok(response));
         final ResultActions result = perform("/api/v1/infra/email/verify/send", HttpMethod.POST, request);
 
@@ -81,7 +76,7 @@ class InfraControllerTest extends DefaultRestDocsConfiguration {
     public void sendVerifyNumberForEmail1() throws Throwable {
         /* Given */
         final SendEmailDto request = SendEmailDto.builder()
-                .email("yanolja@example.com")
+                .email("taechnique@yanolja.com")
                 .group("JOIN")
                 .tracking(defaultTracking())
                 .build();
@@ -89,7 +84,7 @@ class InfraControllerTest extends DefaultRestDocsConfiguration {
         final ServiceStatus resErr = ServiceStatus.ALREADY_SPENT_ALL_EMAIL_CHANCE;
 
         /* When */
-        when(controller.sendVerifyNumberForEmail(request))
+        when(infraController.sendVerifyNumberForEmail(request))
                 .thenThrow(new AuthorizingException(resErr));
         final ResultActions result = perform("/api/v1/infra/email/verify/send", HttpMethod.POST, request);
 
@@ -110,5 +105,6 @@ class InfraControllerTest extends DefaultRestDocsConfiguration {
                         errorFields()
                 ));
     }
+
 
 }
