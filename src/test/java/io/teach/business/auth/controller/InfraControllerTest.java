@@ -86,7 +86,7 @@ class InfraControllerTest extends DefaultRestDocsConfiguration {
         /* When */
         when(infraController.sendVerifyNumberForEmail(request))
                 .thenThrow(new AuthorizingException(resErr));
-        final ResultActions result = perform("/api/v1/infra/email/verify/send", HttpMethod.POST, request);
+        final ResultActions result = errPerform("/api/v1/infra/email/verify/send", HttpMethod.POST, request);
 
 
         /* Then */

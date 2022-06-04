@@ -1,5 +1,6 @@
 package io.teach.business.auth.service;
 
+import io.taech.print.impl.Printer;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.controller.dto.SendEmailDto;
 import io.teach.business.auth.dto.request.ConfirmEmailDto;
@@ -37,6 +38,7 @@ public class EmailService {
 
     private final VerifyProperties verifyProperties;
     private final AsyncEmailTransferService asyncEmailService;
+    private final Printer out;
 
 
     @Transactional
@@ -91,6 +93,7 @@ public class EmailService {
                 });
 
         found.verify(code);
+        log.info(out.draw(found));
 
         return DefaultResponse.ok();
     }

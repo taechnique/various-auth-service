@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration packagingData="true">
+    <appender name="application_log" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%date] [%level] [%file:%line] : %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="application_log"/>
+    </root>
+    <logger name="org.hibernate.SQL" level="DEBUG">
+        <appender-ref ref="application_log"/>
+    </logger>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE">
+        <appender-ref ref="application_log"/>
+    </logger>
+</configuration>

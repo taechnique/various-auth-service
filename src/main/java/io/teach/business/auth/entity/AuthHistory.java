@@ -8,6 +8,7 @@ import io.teach.infrastructure.util.RandomUtil;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthHistory {
 
@@ -92,5 +94,7 @@ public class AuthHistory {
 
         if( ! verifyInfo.getVerifyNumber().equals(code))
             throw new AuthorizingException(ServiceStatus.INVALID_VERIFY_NUMBER);
+
+        this.verifyTime = LocalDateTime.now();
     }
 }

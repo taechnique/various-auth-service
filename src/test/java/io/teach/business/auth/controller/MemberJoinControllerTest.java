@@ -115,7 +115,7 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
         /* When */
         when(memberJoinController.checkDuplication(request))
                 .thenThrow(new AuthorizingException(resErr));
-        final ResultActions result = perform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
+        final ResultActions result = errPerform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
 
 
         /* Then */

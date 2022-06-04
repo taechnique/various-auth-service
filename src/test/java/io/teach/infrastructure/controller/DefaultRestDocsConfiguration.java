@@ -117,6 +117,32 @@ public class DefaultRestDocsConfiguration {
         return result;
     }
 
+    protected ResultActions errPerform(final String uri, final HttpMethod method, Object dto) throws Exception {
+        MockHttpServletRequestBuilder req = null;
+        switch (method) {
+            case GET:
+                req = get(uri);
+                break;
+            case POST:
+                req = post(uri);
+                break;
+            case PUT:
+                req = put(uri);
+                break;
+            case DELETE:
+                req = delete(uri);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported HTTP Method.");
+        }
+
+        final ResultActions result = this.errorMockMvc.perform(req
+                .content(mapper.writeValueAsString(dto))
+                .headers(getHeader()));
+
+        return result;
+    }
+
     protected final FieldDescriptor field(String name, String description) {
         return field(name, description, false);
     }
