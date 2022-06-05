@@ -1,6 +1,7 @@
 package io.teach.business.auth.entity;
 
 import io.teach.business.auth.constant.HistoryGroup;
+import io.teach.business.auth.constant.VerifyStatus;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
@@ -33,6 +34,10 @@ public class AuthHistory {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private VerifyType verifyType;
+
+
+    @Enumerated(EnumType.STRING)
+    private VerifyStatus verifyStatus;
 
     @Column(nullable = false)
     private String description;

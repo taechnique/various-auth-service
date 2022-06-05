@@ -2,6 +2,7 @@ package io.teach.business.auth.repository;
 
 import io.teach.business.auth.entity.AuthHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 public interface AuthHistoryRepository extends JpaRepository<AuthHistory, Long> {
@@ -11,6 +12,7 @@ public interface AuthHistoryRepository extends JpaRepository<AuthHistory, Long> 
             "from AuthHistory ah " +
             "where " +
             "ah.expiredTime > current_time " +
-            "and ah.verifyPermitToken = ?1")
+            "and ah.verifyPermitToken = ?1 " +
+            "and ah.verifyTime is null")
     AuthHistory findByToken(String token);
 }
