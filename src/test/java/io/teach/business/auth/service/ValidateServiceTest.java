@@ -40,7 +40,7 @@ class ValidateServiceTest extends MockingTester {
     @DisplayName("[이메일 중복검사] 이미 존재하는 계정")
     public void checkDuplicationOfId2() throws Throwable {
         /* Given */
-        final String id = "test@email.com";
+        final String id = "taechnique@yanolja.com";
         final String passphrase = "njd1!ln@sa";
         final UserAccountInfo found = UserAccountInfo.create(id, passphrase);
 

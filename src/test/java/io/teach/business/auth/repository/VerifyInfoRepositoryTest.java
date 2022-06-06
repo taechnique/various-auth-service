@@ -26,7 +26,7 @@ class VerifyInfoRepositoryTest {
     @DisplayName("인증 요청 대상으로 조회 (이메일)")
     public void findByTarget() throws Throwable {
         /* Given */
-        final String email = "test@test.com";
+        final String email = "taechnique@yanolja.com";
         VerifyType verifyType = VerifyType.EMAIL;
 
         final AuthHistory history = AuthHistory.createHistory(HistoryGroup.JOIN, verifyType, 600);

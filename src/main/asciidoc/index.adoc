@@ -14,7 +14,7 @@
 
 [[member-join-api-1]]
 ==== 1. 이메일 중복검사
-include::{docdir}/infra/validate-email.adoc[]
+include::{docdir}/member-join/validate-email.adoc[]
 
 [[member-join-api-2]]
 ==== 2. 인증 메일전송
@@ -26,6 +26,6 @@ include::{docdir}/infra/confirm-verify-email.adoc[]
 
 [[member-join-api-4]]
 ==== 4. 비밀번호 유효성 검증
-include::{docdir}/infra/validate-password.adoc[]
+include::{docdir}/member-join/validate-password.adoc[]
 
 

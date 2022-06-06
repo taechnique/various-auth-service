@@ -65,7 +65,7 @@ class EmailServiceTest extends MockingTester {
     @DisplayName("[인증요청 이메일 전송] 하루 최대 요청가능한 횟수가 넘은 경우")
     public void sendEmailForVerify1() throws Throwable {
         /* Given */
-        String id = "test@example.com";
+        String id = "taechnique@yanolja.com";
         String group = "JOIN";
         SendEmailDto input = SendEmailDto.builder().email(id).group(group).build();
 
