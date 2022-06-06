@@ -16,7 +16,16 @@
 ==== 1. 이메일 중복검사
 include::{docdir}/infra/validate-email.adoc[]
 
+[[member-join-api-2]]
 ==== 2. 인증 메일전송
 include::{docdir}/infra/send-verify-email.adoc[]
+
+[[member-join-api-3]]
+==== 3. 이메일 인증
+include::{docdir}/infra/confirm-verify-email.adoc[]
+
+[[member-join-api-4]]
+==== 4. 비밀번호 유효성 검증
+include::{docdir}/infra/validate-password.adoc[]
 
 

@@ -19,7 +19,7 @@ public class MemberJoinController {
     private final MemberJoinService service;
 
     @PostMapping("/join/validate")
-    public ResponseEntity<StandardResponse> checkDuplication(@RequestBody @Valid final ValidateDto dto) throws AuthorizingException {
+    public ResponseEntity<StandardResponse> validate(@RequestBody @Valid final ValidateDto dto) throws AuthorizingException {
 
         final StandardResponse response = service.validateInJoin(dto);
 

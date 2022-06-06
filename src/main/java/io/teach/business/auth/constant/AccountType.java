@@ -6,7 +6,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum AccountType {
-    ID("ID");
+    ID("ID"),
+    PASSWORD("PASSWORD")
+    ;
 
     private String type;
     private static final Map<String, AccountType> typeMap = Arrays.stream(values()).collect(Collectors.toMap(AccountType::getType, Function.identity()));

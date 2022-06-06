@@ -10,11 +10,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Entity
@@ -35,7 +35,7 @@ public class AuthHistory {
     @Enumerated(EnumType.STRING)
     private VerifyType verifyType;
 
-
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private VerifyStatus verifyStatus;
 
@@ -58,13 +58,11 @@ public class AuthHistory {
         this.verifyInfo = verifyInfo;
     }
 
-    public static AuthHistory createHistory(final String group, final VerifyType verifyType, final int expiredSecond) {
-        Assert.notNull(group, "Group cannot be null");
+    public static AuthHistory createHistory(final HistoryGroup historyGroup, final VerifyType verifyType, final int expiredSecond) {
+        Assert.notNull(historyGroup, "Group cannot be null");
         Assert.notNull(verifyType, "verify type cannot be null.");
 
         final AuthHistory history = new AuthHistory();
-        final HistoryGroup historyGroup = HistoryGroup.groupOf(group).orElseThrow(() ->
-                new AuthorizingException(ServiceStatus.INVALID_PARAMETER));
 
         history.groupType = historyGroup.getGroup();
         history.verifyType = verifyType;
@@ -72,6 +70,7 @@ public class AuthHistory {
         history.verifyPermitToken = RandomUtil.randomToken();
         LocalDateTime now = LocalDateTime.now();
         history.sendTime = now;
+        history.verifyStatus = VerifyStatus.YET;
         history.expiredTime = now.plusSeconds(expiredSecond);
 
         return history;
@@ -80,9 +79,11 @@ public class AuthHistory {
 
     public Boolean wasItSentToday() {
         final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime startTime = now.with(LocalTime.MIN);
+        final LocalDateTime endTime = now.with(LocalTime.MAX);
 
-        return (now.with(LocalDateTime.MIN).isBefore(this.sendTime) &&
-                now.with(LocalDateTime.MAX).isAfter(this.sendTime));
+        return (startTime.isBefore(this.getSendTime()) &&
+                endTime.isAfter(this.getSendTime()));
     }
 
     public Boolean isExpired() {
@@ -93,13 +94,25 @@ public class AuthHistory {
 
     public void verify(final String code) {
         if(isExpired())
-            throw new AuthorizingException(ServiceStatus.INVALID_VERIFY_NUMBER);
+            throw new AuthorizingException(ServiceStatus.ALREADY_EXPIRED_HISTORY);
 
-        final VerifyInfo verifyInfo = this.verifyInfo;
+        final VerifyInfo verifyInfo = this.getVerifyInfo();
 
         if( ! verifyInfo.getVerifyNumber().equals(code))
             throw new AuthorizingException(ServiceStatus.INVALID_VERIFY_NUMBER);
 
+        if(this.getVerifyStatus() != VerifyStatus.YET)
+            throw new AuthorizingException(ServiceStatus.ALREADY_PROCESSED_HISTORY);
+
         this.verifyTime = LocalDateTime.now();
+        this.verifyStatus = VerifyStatus.VERIFIED;
+    }
+
+    public void changeStatus(final VerifyStatus status) {
+        //== null safe ==//
+        if(status != VerifyStatus.VERIFIED && status != VerifyStatus.CANCELED)
+            throw new AuthorizingException(ServiceStatus.ONLY_CHANGE_TO_CANCELED_OR_VERIFIED);
+
+        this.verifyStatus = status;
     }
 }

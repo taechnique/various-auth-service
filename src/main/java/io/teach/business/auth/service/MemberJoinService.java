@@ -38,6 +38,10 @@ public class MemberJoinService {
                 validateService.checkDuplicationOfId(value);
                 break;
             }
+            case PASSWORD: {
+                validateService.validatePassword(value);
+                break;
+            }
             default: {
                 log.info("Not found validate service for \"{}\"", type);
                 throw new AuthorizingException(ServiceStatus.INVALID_PARAMETER);

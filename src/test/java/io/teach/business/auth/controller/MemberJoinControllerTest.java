@@ -33,7 +33,7 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
 
     @Test
     @DisplayName("[이메일 중복검사] 사용할 수 있는 이메일")
-    public void checkDuplication() throws Throwable {
+    public void validateEmail() throws Throwable {
         /* Given */
         final ValidateDto request = ValidateDto.builder()
                 .type("ID")
@@ -44,7 +44,7 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
         final DefaultResponse response = DefaultResponse.ok();
 
         /* When */
-        when(memberJoinController.checkDuplication(request))
+        when(memberJoinController.validate(request))
                 .thenReturn(ResponseEntity.ok(response));
         final ResultActions result = perform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
 
@@ -67,9 +67,11 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
     }
 
 
+
+
     @Test
     @DisplayName("[이메일 중복검사] 잘못된 타입 또는 이메일")
-    public void checkDuplication1() throws Throwable {
+    public void validateEmail1() throws Throwable {
         /* Given */
         final ValidateDto request = ValidateDto.builder()
                 .type("ACCOUNT")
@@ -81,15 +83,15 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
 
 
         /* When */
-        when(memberJoinController.checkDuplication(request))
+        when(memberJoinController.validate(request))
                 .thenThrow(new AuthorizingException(resErr));
-        final ResultActions result = perform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
+        final ResultActions result = errPerform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
 
         /* Then */
         result.andDo(print())
                 .andExpect(status().is(resErr.getStatus()))
                 .andExpect(jsonPath("result").value(resErr.getResult()))
-                .andDo(this.handler.document(
+                .andDo(this.errorHandler.document(
                         requestFields(
                                 field("type", "유효성 검증 타입"),
                                 field("value", "검증 대상"),
@@ -102,7 +104,7 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
 
     @Test
     @DisplayName("[이메일 중복확인] 이미 사용중인 아이디")
-    public void checkDuplication2() throws Throwable {
+    public void validateEmail2() throws Throwable {
         /* Given */
         final ValidateDto request = ValidateDto.builder()
                 .type("ID")
@@ -113,7 +115,7 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
         final ServiceStatus resErr = ServiceStatus.ALREADY_EXIST_LOGIN_ID;
 
         /* When */
-        when(memberJoinController.checkDuplication(request))
+        when(memberJoinController.validate(request))
                 .thenThrow(new AuthorizingException(resErr));
         final ResultActions result = errPerform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
 
@@ -122,7 +124,7 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
         result.andDo(print())
                 .andExpect(status().is(resErr.getStatus()))
                 .andExpect(jsonPath("result").value(resErr.getResult()))
-                .andDo(this.handler.document(
+                .andDo(this.errorHandler.document(
                         requestFields(
                                 field("type", "유효성 검증 타입"),
                                 field("value", "검증 대상"),
@@ -131,5 +133,72 @@ class MemberJoinControllerTest extends DefaultRestDocsConfiguration {
                         ),
                         errorFields()
                 ));
+    }
+    @Test
+    @DisplayName("[비밀번호 유효성 검사] 사용 가능한 비밀번호")
+    public void validatePassword() throws Throwable {
+        /* Given */
+        final ValidateDto request = ValidateDto.builder()
+                .type("PASSWORD")
+                .value("yanolj4ever!")
+                .tracking(defaultTracking())
+                .build();
+
+        final DefaultResponse response = DefaultResponse.ok();
+
+        /* When */
+        when(memberJoinController.validate(request))
+                .thenReturn(ResponseEntity.ok(response));
+        final ResultActions result = perform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
+
+        /* Then */
+        result
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("result").value(success()))
+                .andDo(this.handler.document(
+                        requestFields(
+                                field("type", "유효성 검증 타입"),
+                                field("value", "검증 대상"),
+                                field("tracking.userAgent", "트래킹 정보 유저 에이전트"),
+                                field("tracking.userIp", "클라이언트 아이피")
+                        ),
+                        responseFields(
+                                field("result", "처리 결과")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("[비밀번호 유효성 검사] 잘못된 비밀번호 형식")
+    public void validatePassword1() throws Throwable {
+        /* Given */
+        final ValidateDto request = ValidateDto.builder()
+                .type("PASSWORD")
+                .value("yanolja4ver")
+                .tracking(defaultTracking())
+                .build();
+
+        final ServiceStatus resErr = ServiceStatus.INVALID_PASSWORD_FORMAT;
+
+        /* When */
+        when(memberJoinController.validate(request))
+                .thenThrow(new AuthorizingException(resErr));
+        final ResultActions result = errPerform(VALIDATE_ENDPOINT, HttpMethod.POST, request);
+
+        /* Then */
+        result.andDo(print())
+                .andExpect(status().is(resErr.getStatus()))
+                .andExpect(jsonPath("result").value(resErr.getResult()))
+                .andDo(this.errorHandler.document(
+                        requestFields(
+                                field("type", "유효성 검증 타입"),
+                                field("value", "검증 대상"),
+                                field("tracking.userAgent", "트래킹 정보 유저 에이전트"),
+                                field("tracking.userIp", "클라이언트 아이피")
+                        ),
+                        errorFields()
+                ));
+
     }
 }

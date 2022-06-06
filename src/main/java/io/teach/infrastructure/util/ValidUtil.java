@@ -15,4 +15,13 @@ public class ValidUtil {
 
         return matcher.matches();
     }
+
+    public static boolean password(final String password) {
+
+        final String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,20}";
+        final Pattern compiled = Pattern.compile(passwordRegex);
+        final Matcher matcher = compiled.matcher(password);
+
+        return matcher.matches();
+    }
 }

@@ -1,6 +1,6 @@
 package io.teach.business.auth.service;
 
-import io.taech.print.impl.Printer;
+import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.controller.dto.SendEmailDto;
 import io.teach.business.auth.dto.request.ConfirmEmailDto;
@@ -38,7 +38,6 @@ public class EmailService {
 
     private final VerifyProperties verifyProperties;
     private final AsyncEmailTransferService asyncEmailService;
-    private final Printer out;
 
 
     @Transactional
@@ -49,11 +48,17 @@ public class EmailService {
         final Integer maxToday = verifyProperties.getEmailPolicy().getTodayMax();
         final Integer codeLength = verifyProperties.getEmailPolicy().getCodeLength();
 
+        final HistoryGroup historyGroup = HistoryGroup.groupOf(group).orElseThrow(() -> {
+            log.error("Invalid history group.");
+            return new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
+        });
+
+
         //== 이메일 검증 ==//
         validateService.checkDuplicationOfId(email);
 
         final VerifyInfo found = verifyInfoRepository.findByTarget(email);
-        final AuthHistory history = AuthHistory.createHistory(group, VerifyType.EMAIL, expiredSecond);
+        final AuthHistory history = AuthHistory.createHistory(historyGroup, VerifyType.EMAIL, expiredSecond);
 
         //==인증 요청 미존재 ==//
         if(Util.isNull(found)) {
@@ -63,6 +68,7 @@ public class EmailService {
         } else {
             if (found.getTodayCount() < maxToday) {
 
+                found.cancelOldHistories();
                 found.refreshVerifyToken(history, codeLength);
                 authHistoryRepository.save(history);
             } else
@@ -93,7 +99,6 @@ public class EmailService {
                 });
 
         found.verify(code);
-        log.info(out.draw(found));
 
         return DefaultResponse.ok();
     }

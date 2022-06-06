@@ -1,5 +1,6 @@
 package io.teach.business.auth.repository;
 
+import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.entity.AuthHistory;
 import io.teach.business.auth.entity.VerifyInfo;
@@ -24,7 +25,7 @@ class AuthHistoryRepositoryTest {
     public void findByToken1() throws Throwable {
         /* Given */
         final VerifyType type = VerifyType.EMAIL;
-        final AuthHistory history = AuthHistory.createHistory("JOIN", type, 600);
+        final AuthHistory history = AuthHistory.createHistory(HistoryGroup.JOIN, type, 600);
         VerifyInfo.createVerifyInfo("taechnique@yanalja.com", type, 6, history);
 
 

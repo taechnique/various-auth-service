@@ -1,5 +1,6 @@
 package io.teach.business.auth.service;
 
+import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.controller.dto.SendEmailDto;
 import io.teach.business.auth.dto.request.ConfirmEmailDto;
@@ -15,20 +16,22 @@ import io.teach.infrastructure.service.MockingTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.mockito.MockedStatic;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Transactional
+import static org.mockito.Mockito.*;
+
 class EmailServiceTest extends MockingTester {
 
     @InjectMocks
@@ -70,14 +73,14 @@ class EmailServiceTest extends MockingTester {
         Integer expiredSecond = verifyProperties.getEmailPolicy().getExpiredSecond();
         Integer codeLength = verifyProperties.getEmailPolicy().getCodeLength();
 
-        final AuthHistory history = AuthHistory.createHistory(group, type, expiredSecond);
+        final AuthHistory history = AuthHistory.createHistory(HistoryGroup.JOIN, type, expiredSecond);
         final VerifyInfo info = VerifyInfo.createVerifyInfo(id, type, codeLength, history);
 
         Arrays.asList(
-                AuthHistory.createHistory(group, type, expiredSecond),
-                AuthHistory.createHistory(group, type, expiredSecond),
-                AuthHistory.createHistory(group, type, expiredSecond),
-                AuthHistory.createHistory(group, type, expiredSecond)
+                AuthHistory.createHistory(HistoryGroup.JOIN, type, expiredSecond),
+                AuthHistory.createHistory(HistoryGroup.JOIN, type, expiredSecond),
+                AuthHistory.createHistory(HistoryGroup.JOIN, type, expiredSecond),
+                AuthHistory.createHistory(HistoryGroup.JOIN, type, expiredSecond)
         ).stream().forEach(his -> info.refreshVerifyToken(his, codeLength));
 
         /* When */

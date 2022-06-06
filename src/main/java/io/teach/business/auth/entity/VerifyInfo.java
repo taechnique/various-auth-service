@@ -1,5 +1,6 @@
 package io.teach.business.auth.entity;
 
+import io.teach.business.auth.constant.VerifyStatus;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.infrastructure.util.RandomUtil;
 import lombok.AccessLevel;
@@ -34,14 +35,12 @@ public class VerifyInfo {
     @OneToMany(mappedBy = "verifyInfo", fetch = FetchType.LAZY)
     private List<AuthHistory> authHistory = new ArrayList<>();
 
-    public static VerifyInfo createVerifyInfo(final String verifyTarget, final VerifyType verifyType, final Integer CodeLength, final  AuthHistory authHistory) {
+    public static VerifyInfo createVerifyInfo(final String verifyTarget, final VerifyType verifyType, final Integer codeLength, final  AuthHistory authHistory) {
         final VerifyInfo verifyInfo = new VerifyInfo();
 
         verifyInfo.verifyTarget = verifyTarget;
         verifyInfo.verifyType = verifyType;
-        verifyInfo.verifyNumber = RandomUtil.randomNumeric(CodeLength);
-        verifyInfo.authHistory.add(authHistory);
-        authHistory.setVerifyInfo(verifyInfo);
+        verifyInfo.refreshVerifyToken(authHistory, codeLength);
 
         return verifyInfo;
     }
@@ -61,5 +60,10 @@ public class VerifyInfo {
 
     public Integer getTodayRemainCount(final Integer todayMax) {
         return (todayMax - this.getTodayCount());
+    }
+
+    public void cancelOldHistories () {
+        this.authHistory.stream().filter(h -> h.getVerifyStatus() == VerifyStatus.YET)
+                .forEach(h -> h.changeStatus(VerifyStatus.CANCELED));
     }
 }

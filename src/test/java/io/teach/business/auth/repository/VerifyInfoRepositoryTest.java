@@ -1,5 +1,6 @@
 package io.teach.business.auth.repository;
 
+import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.entity.AuthHistory;
 import io.teach.business.auth.entity.VerifyInfo;
@@ -28,7 +29,7 @@ class VerifyInfoRepositoryTest {
         final String email = "test@test.com";
         VerifyType verifyType = VerifyType.EMAIL;
 
-        final AuthHistory history = AuthHistory.createHistory("JOIN", verifyType, 600);
+        final AuthHistory history = AuthHistory.createHistory(HistoryGroup.JOIN, verifyType, 600);
         VerifyInfo.createVerifyInfo(email, verifyType, 6, history);
 
         /* When */

@@ -35,4 +35,11 @@ public class ValidateService {
 
         log.info("Successfully check for duplication of login id: \"{}\"", value);
     }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void validatePassword(final String value) throws AuthorizingException {
+        if( ! ValidUtil.password(value))
+            throw new AuthorizingException(ServiceStatus.INVALID_PASSWORD_FORMAT);
+
+    }
 }

@@ -1,0 +1,38 @@
+ifndef::subpath[]
+:subpath: ../../../../target/generated-snippets
+endif::[]
+
+[[confirm_verify_email_http_request]]
+*요청 정보*
+
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email/http-request.adoc[]
+
+[[confirm_verify_email_request_fields]]
+*요청 규격*
+
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email/request-fields.adoc[]
+
+[[confirm_verify_email_http_response]]
+*응답 정보*
+
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email/http-response.adoc[]
+
+[[confirm_verify_email_response_fields]]
+*응답 규격*
+
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email/response-fields.adoc[]
+
+[[confirm_verify_email_error]]
+*서비스 예외*
+
+.🚨 올바르지 않은 요청 토큰
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email1/http-response.adoc[]
+
+.🚨 만료된 인증요청 (resCode: 12)
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email2/http-response.adoc[]
+
+.🚨 올바르지 않은 인증번호 (resCode: 10)
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email3/http-response.adoc[]
+
+.🚨 이미 인증된 이력 (resCode: 13)
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email4/http-response.adoc[]
