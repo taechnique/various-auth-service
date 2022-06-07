@@ -1,5 +1,6 @@
 package io.teach.business.auth.service;
 
+import io.teach.business.auth.dto.MemberJoinDto;
 import io.teach.business.member.entity.UserAccountInfo;
 import io.teach.business.member.repository.AccountRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
@@ -40,6 +41,18 @@ public class ValidateService {
     public void validatePassword(final String value) throws AuthorizingException {
         if( ! ValidUtil.password(value))
             throw new AuthorizingException(ServiceStatus.INVALID_PASSWORD_FORMAT);
+
+    }
+
+    public void validateJoinField(final MemberJoinDto dto) {
+        ValidUtil.email(dto.getEmail());
+        ValidUtil.uuid(dto.getEmailToken());
+        ValidUtil.password(dto.getPassword(), dto.getPasswordConfirm());
+
+        dto.getPhone();
+        dto.getCertifyCode();
+
+
 
     }
 }

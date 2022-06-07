@@ -1,6 +1,8 @@
 package io.teach.business.auth.service;
 
 import io.teach.business.auth.constant.AccountType;
+import io.teach.business.auth.dto.AgreementModel;
+import io.teach.business.auth.dto.MemberJoinDto;
 import io.teach.business.auth.dto.request.ValidateDto;
 import io.teach.business.auth.dto.response.ValidationResDto;
 import io.teach.infrastructure.excepted.AuthorizingException;
@@ -8,6 +10,7 @@ import io.teach.infrastructure.excepted.ServiceStatus;
 import io.teach.infrastructure.http.body.DefaultResponse;
 import io.teach.infrastructure.http.body.StandardResponse;
 import io.teach.infrastructure.util.Util;
+import io.teach.infrastructure.util.ValidUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,5 +52,22 @@ public class MemberJoinService {
         }
 
         return DefaultResponse.ok();
+    }
+
+    @Transactional
+    public StandardResponse joinForMember(final MemberJoinDto dto) throws AuthorizingException {
+
+        final AgreementModel agreements = dto.getAgreements();
+
+        ValidUtil.checkEssentialEntries(agreements.getTermOfService(), agreements.getPrivacy())
+                .ifPresent((b) -> {
+                    throw new AuthorizingException(ServiceStatus.NEED_ESSENTIAL_AGREEMENT);
+                });
+
+        validateService.validateJoinField(dto);
+
+
+
+        return null;
     }
 }

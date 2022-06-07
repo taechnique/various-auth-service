@@ -1,6 +1,7 @@
 package io.teach.business.auth.controller;
 
 
+import io.teach.business.auth.dto.MemberJoinDto;
 import io.teach.business.auth.dto.request.ValidateDto;
 import io.teach.business.auth.service.MemberJoinService;
 import io.teach.infrastructure.excepted.AuthorizingException;
@@ -22,6 +23,14 @@ public class MemberJoinController {
     public ResponseEntity<StandardResponse> validate(@RequestBody @Valid final ValidateDto dto) throws AuthorizingException {
 
         final StandardResponse response = service.validateInJoin(dto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/join/v4")
+    public ResponseEntity<StandardResponse> memberJoinOfVersion4(@RequestBody @Valid MemberJoinDto dto) throws AuthorizingException {
+
+        final StandardResponse response = service.joinForMember(dto);
 
         return ResponseEntity.ok(response);
     }

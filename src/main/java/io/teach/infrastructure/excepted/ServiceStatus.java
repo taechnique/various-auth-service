@@ -24,7 +24,9 @@ public enum ServiceStatus {
     ONLY_CHANGE_TO_CANCELED_OR_VERIFIED(406, 11, "NOT_ACCEPTABLE", "완료 또는 취소로만 변경이 가능합니다."),
     ALREADY_EXPIRED_HISTORY(400, 12, "FAILED","인증번호가 올바르지 않습니다."),
     ALREADY_PROCESSED_HISTORY(400, 13, "FAILED", "인증번호가 올바르지 않습니다."),
-    INVALID_PASSWORD_FORMAT(400, 14, "FAILED", "비밀번호는 영문+숫자+특수문자 8~20자리만 가능합니다.");
+    INVALID_PASSWORD_FORMAT(400, 14, "FAILED", "비밀번호는 영문+숫자+특수문자 8~20자리만 가능합니다."),
+    NEED_ESSENTIAL_AGREEMENT(400, 15, "FAILED", "필수항목이 동의되지 않았습니다.")
+    ;
 
 
     private int status;
