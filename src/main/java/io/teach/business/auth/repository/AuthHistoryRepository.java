@@ -12,8 +12,8 @@ public interface AuthHistoryRepository extends JpaRepository<AuthHistory, Long> 
             "from AuthHistory ah " +
             "where " +
             "ah.expiredTime > current_time " +
-            "and ah.verifyPermitToken = ?1 " +
-            "and ah.verifyTime is null")
+            "and ah.verifyPermitToken = ?1 ")
     AuthHistory findByToken(String token);
 
+    
 }

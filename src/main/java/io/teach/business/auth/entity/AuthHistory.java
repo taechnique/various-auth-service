@@ -101,7 +101,7 @@ public class AuthHistory {
         if( ! verifyInfo.getVerifyNumber().equals(code))
             throw new AuthorizingException(ServiceStatus.INVALID_VERIFY_NUMBER);
 
-        if(this.getVerifyStatus() != VerifyStatus.YET)
+        if(this.getVerifyStatus() != VerifyStatus.YET || this.getVerifyTime() != null)
             throw new AuthorizingException(ServiceStatus.ALREADY_PROCESSED_HISTORY);
 
         this.verifyTime = LocalDateTime.now();

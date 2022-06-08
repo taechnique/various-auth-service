@@ -56,7 +56,6 @@ public class MemberJoinService {
 
     @Transactional
     public StandardResponse joinForMember(final MemberJoinDto dto) throws AuthorizingException {
-
         final AgreementModel agreements = dto.getAgreements();
 
         ValidUtil.checkEssentialEntries(agreements.getTermOfService(), agreements.getPrivacy())
@@ -66,8 +65,16 @@ public class MemberJoinService {
 
         validateService.validateJoinField(dto);
 
+        checkVerifyHistoryAndCreateAccount(dto);
+
+
+
 
 
         return null;
+    }
+
+    private void checkVerifyHistoryAndCreateAccount(MemberJoinDto dto) {
+
     }
 }

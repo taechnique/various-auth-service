@@ -51,4 +51,28 @@ public class ValidUtil {
 
         return matcher.matches();
     }
+
+
+    public static String phone(final String phone, final boolean needHyphen) {
+        final String phoneRegex = "^(01[0|1|6|7|8|9])(-)([0-9]{3,4})(-)([0-9]{4})$";
+        final Pattern compiled = Pattern.compile(phoneRegex);
+        final Matcher matcher = compiled.matcher(phone);
+
+        if( ! matcher.matches())
+            return null;
+
+        if (needHyphen)
+            return new StringBuilder()
+                    .append(matcher.group(1))
+                    .append("-").append(matcher.group(3))
+                    .append("-").append(matcher.group(5))
+                    .toString();
+
+        else
+            return new StringBuilder()
+                    .append(matcher.group(1))
+                    .append(matcher.group(3))
+                    .append(matcher.group(5))
+                    .toString();
+    }
 }
