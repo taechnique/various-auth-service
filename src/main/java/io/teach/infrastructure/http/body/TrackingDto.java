@@ -7,20 +7,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Data
 public class TrackingDto {
 
-    @NotEmpty
     @JsonInclude(Include.NON_NULL)
     private String userAgent;
 
-    @NotEmpty
     @JsonInclude(Include.NON_NULL)
     private String deviceOs;
 
-    @NotEmpty
     @JsonInclude(Include.NON_NULL)
     private String joinRoute;
 

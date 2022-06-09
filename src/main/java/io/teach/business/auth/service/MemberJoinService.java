@@ -1,5 +1,6 @@
 package io.teach.business.auth.service;
 
+import io.taech.print.impl.Printer;
 import io.teach.business.auth.constant.AccountType;
 import io.teach.business.auth.dto.AgreementModel;
 import io.teach.business.auth.dto.MemberJoinDto;
@@ -29,6 +30,7 @@ public class MemberJoinService {
 
     private final ValidateService validateService;
     private final AuthHistoryRepository authHistoryRepository;
+    private final Printer out;
 
     @Transactional(readOnly = true)
     public StandardResponse validateInJoin(final ValidateDto dto) throws AuthorizingException {
@@ -68,12 +70,12 @@ public class MemberJoinService {
                     throw new AuthorizingException(ServiceStatus.NEED_ESSENTIAL_AGREEMENT);
                 });
 
-        checkVerifyHistoryAndCreateAccount(dto);
+        checkVerifiedHistory(dto);
 
-        return null;
+        return DefaultResponse.ok();
     }
 
-    private void checkVerifyHistoryAndCreateAccount(final MemberJoinDto dto) {
+    private void checkVerifiedHistory(final MemberJoinDto dto) {
         validateService.validateJoinField(dto);
 
         final String email = dto.getEmail();
@@ -82,10 +84,10 @@ public class MemberJoinService {
 
         final AuthHistory history = authHistoryRepository.findByVerifiedHistory(emailToken, certifyCode, email)
                 .orElseThrow(() -> {
-                    log.error("");
+                    log.error("There is no history with verified so that can't check your certificated data.");
                     return new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
                 });
-
+        System.out.println(out.draw(history));
 
     }
 }
