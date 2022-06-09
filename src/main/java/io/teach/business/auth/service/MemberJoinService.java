@@ -5,6 +5,8 @@ import io.teach.business.auth.dto.AgreementModel;
 import io.teach.business.auth.dto.MemberJoinDto;
 import io.teach.business.auth.dto.request.ValidateDto;
 import io.teach.business.auth.dto.response.ValidationResDto;
+import io.teach.business.auth.entity.AuthHistory;
+import io.teach.business.auth.repository.AuthHistoryRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
 import io.teach.infrastructure.http.body.DefaultResponse;
@@ -16,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static io.teach.infrastructure.excepted.ServiceStatus.success;
 
 @Service
@@ -24,6 +28,7 @@ import static io.teach.infrastructure.excepted.ServiceStatus.success;
 public class MemberJoinService {
 
     private final ValidateService validateService;
+    private final AuthHistoryRepository authHistoryRepository;
 
     @Transactional(readOnly = true)
     public StandardResponse validateInJoin(final ValidateDto dto) throws AuthorizingException {
@@ -63,18 +68,24 @@ public class MemberJoinService {
                     throw new AuthorizingException(ServiceStatus.NEED_ESSENTIAL_AGREEMENT);
                 });
 
-        validateService.validateJoinField(dto);
-
         checkVerifyHistoryAndCreateAccount(dto);
-
-
-
-
 
         return null;
     }
 
-    private void checkVerifyHistoryAndCreateAccount(MemberJoinDto dto) {
+    private void checkVerifyHistoryAndCreateAccount(final MemberJoinDto dto) {
+        validateService.validateJoinField(dto);
+
+        final String email = dto.getEmail();
+        final String emailToken = dto.getEmailToken();
+        final String certifyCode = dto.getCertifyCode();
+
+        final AuthHistory history = authHistoryRepository.findByVerifiedHistory(emailToken, certifyCode, email)
+                .orElseThrow(() -> {
+                    log.error("");
+                    return new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
+                });
+
 
     }
 }

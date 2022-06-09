@@ -1,0 +1,22 @@
+version: '2'
+services:
+  zookeeper:
+    container_name: local-zookeeper
+    image: wustmeister/zookeeper:3.4.6
+    ports:
+      - "2181:2181"
+  kakfa:
+    container_name: local-kafka
+    image: wurstmeister/kafka:2.12-2.3.0
+    depends_on:
+      - zookeeper
+
+    ports:
+      - "9092:9093"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "test_topic:1:1" # topic name:number of partition:number of replica
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface AuthHistoryRepository extends JpaRepository<AuthHistory, Long> {
 
     @Query("select " +
@@ -13,7 +15,17 @@ public interface AuthHistoryRepository extends JpaRepository<AuthHistory, Long> 
             "where " +
             "ah.expiredTime > current_time " +
             "and ah.verifyPermitToken = ?1 ")
-    AuthHistory findByToken(String token);
+    AuthHistory findByToken(final String token);
 
-    
+    @Query("select " +
+            "ah " +
+            "from AuthHistory ah " +
+            "left outer join VerifyInfo vi " +
+            "on ah.verifyInfo.id = vi.id " +
+            "where " +
+            "ah.verifyPermitToken = ?1 " +
+            "and ah.sendTime is not null " +
+            "and vi.verifyNumber = ?2 " +
+            "and vi.verifyTarget = ?3")
+    Optional<AuthHistory> findByVerifiedHistory(final String token, final String verifyCode, final String target);
 }
