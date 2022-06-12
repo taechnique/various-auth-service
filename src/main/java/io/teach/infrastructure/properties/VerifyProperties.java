@@ -14,10 +14,21 @@ public class VerifyProperties {
 
     private EmailPolicy emailPolicy;
 
-
+    private PhonePolicy phonePolicy;
 
     @Data
     public static class EmailPolicy {
+
+        @Min(1)
+        private Integer todayMax;
+
+        private Integer expiredSecond;
+
+        private Integer codeLength;
+    }
+
+    @Data
+    public static class PhonePolicy {
 
         @Min(1)
         private Integer todayMax;

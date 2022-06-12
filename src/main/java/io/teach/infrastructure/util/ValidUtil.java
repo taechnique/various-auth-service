@@ -14,9 +14,15 @@ public class ValidUtil {
 
     private ValidUtil() {}
 
+    private final static String emailRegex = "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+    private final static String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,20}";
+    private final static String uuidRegex = "^([a-fA-F0-9]{8})([-]?)([a-fA-F0-9]{4})([-]?)(4[a-fA-F0-9]{3})([-]?)([a-fA-F0-9]{4})([-]?)([a-fA-F0-9]{12})$";
+    private final static String phoneRegex = "^(01[0|1|6|7|8|9])(-)?([0-9]{3,4})(-)?([0-9]{4})$";
+
+
+
     public static boolean email(final String email) {
 
-        final String emailRegex = "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
         final Pattern compiled = Pattern.compile(emailRegex);
         final Matcher matcher = compiled.matcher(email);
 
@@ -25,7 +31,6 @@ public class ValidUtil {
 
     public static boolean password(final String password) {
 
-        final String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,20}";
         final Pattern compiled = Pattern.compile(passwordRegex);
         final Matcher matcher = compiled.matcher(password);
 
@@ -45,7 +50,6 @@ public class ValidUtil {
 
     public static boolean uuid(final String uuid) {
 
-        final String uuidRegex = "^([a-fA-F0-9]{8})([-]?)([a-fA-F0-9]{4})([-]?)(4[a-fA-F0-9]{3})([-]?)([a-fA-F0-9]{4})([-]?)([a-fA-F0-9]{12})$";
         final Pattern compiled = Pattern.compile(uuidRegex);
         final Matcher matcher = compiled.matcher(uuid);
 
@@ -54,25 +58,14 @@ public class ValidUtil {
 
 
     public static String phone(final String phone, final boolean needHyphen) {
-        final String phoneRegex = "^(01[0|1|6|7|8|9])(-)([0-9]{3,4})(-)([0-9]{4})$";
         final Pattern compiled = Pattern.compile(phoneRegex);
         final Matcher matcher = compiled.matcher(phone);
+        final String delim = needHyphen ? "-" : "";
 
-        if( ! matcher.matches())
+        if( ! matcher.matches()) {
             return null;
+        }
 
-        if (needHyphen)
-            return new StringBuilder()
-                    .append(matcher.group(1))
-                    .append("-").append(matcher.group(3))
-                    .append("-").append(matcher.group(5))
-                    .toString();
-
-        else
-            return new StringBuilder()
-                    .append(matcher.group(1))
-                    .append(matcher.group(3))
-                    .append(matcher.group(5))
-                    .toString();
+        return String.join(delim, matcher.group(1), matcher.group(3), matcher.group(5));
     }
 }

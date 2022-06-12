@@ -1,4 +1,4 @@
-package io.teach.business.auth.controller.dto;
+package io.teach.business.auth.dto;
 
 import io.teach.infrastructure.http.body.StandardRequest;
 import io.teach.infrastructure.http.body.TrackingDto;
@@ -15,10 +15,10 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendEmailDto implements StandardRequest {
+public class SendPhoneDto implements StandardRequest {
 
     @NotEmpty
-    private String email;
+    private String phoneNum;
 
     @NotEmpty
     private String group;

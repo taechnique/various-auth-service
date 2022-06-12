@@ -35,7 +35,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                 .antMatchers(
                                         "/api/v1/user/**",
                                         "/api/v1/member/**",
-                                        "/api/v1/infra/email/verify/**")
+                                        "/api/v1/infra/email/verify/**",
+                                        "/api/v1/infra/sms/certificate")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic().disable();

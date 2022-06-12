@@ -2,11 +2,13 @@ package io.teach.business.auth.service;
 
 import io.taech.print.impl.Printer;
 import io.teach.business.auth.constant.AccountType;
+import io.teach.business.auth.constant.VerifyStatus;
 import io.teach.business.auth.dto.AgreementModel;
 import io.teach.business.auth.dto.MemberJoinDto;
 import io.teach.business.auth.dto.request.ValidateDto;
 import io.teach.business.auth.dto.response.ValidationResDto;
 import io.teach.business.auth.entity.AuthHistory;
+import io.teach.business.auth.entity.VerifyInfo;
 import io.teach.business.auth.repository.AuthHistoryRepository;
 import io.teach.infrastructure.excepted.AuthorizingException;
 import io.teach.infrastructure.excepted.ServiceStatus;
@@ -70,24 +72,26 @@ public class MemberJoinService {
                     throw new AuthorizingException(ServiceStatus.NEED_ESSENTIAL_AGREEMENT);
                 });
 
-        checkVerifiedHistory(dto);
+        final VerifyInfo verifyInfo = checkVerifiedHistory(dto);
+
+
 
         return DefaultResponse.ok();
     }
 
-    private void checkVerifiedHistory(final MemberJoinDto dto) {
+    private VerifyInfo checkVerifiedHistory(final MemberJoinDto dto) {
         validateService.validateJoinField(dto);
 
         final String email = dto.getEmail();
         final String emailToken = dto.getEmailToken();
         final String certifyCode = dto.getCertifyCode();
 
-        final AuthHistory history = authHistoryRepository.findByVerifiedHistory(emailToken, certifyCode, email)
+        final AuthHistory history = authHistoryRepository.findByVerifiedHistory(emailToken, certifyCode, email, VerifyStatus.VERIFIED)
                 .orElseThrow(() -> {
                     log.error("There is no history with verified so that can't check your certificated data.");
                     return new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
                 });
-        System.out.println(out.draw(history));
 
+        return history.getVerifyInfo();
     }
 }

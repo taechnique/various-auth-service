@@ -2,7 +2,7 @@ package io.teach.business.auth.service;
 
 import io.teach.business.auth.constant.HistoryGroup;
 import io.teach.business.auth.constant.VerifyType;
-import io.teach.business.auth.controller.dto.SendEmailDto;
+import io.teach.business.auth.dto.SendEmailDto;
 import io.teach.business.auth.dto.request.ConfirmEmailDto;
 import io.teach.business.auth.entity.AuthHistory;
 import io.teach.business.auth.entity.VerifyInfo;
@@ -19,12 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import org.mockito.MockedStatic;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,10 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import static org.mockito.Mockito.*;
 
-class EmailServiceTest extends MockingTester {
+class CertifyServiceTest extends MockingTester {
 
     @InjectMocks
-    private EmailService emailService;
+    private CertifyService certifyService;
 
     @Mock
     private VerifyProperties verifyProperties;
@@ -86,7 +80,7 @@ class EmailServiceTest extends MockingTester {
         /* When */
         when(verifyInfoRepository.findByTarget(id))
                 .thenReturn(info);
-        AuthorizingException actual = assertThrows(AuthorizingException.class, () -> emailService.sendEmailForVerify(input));
+        AuthorizingException actual = assertThrows(AuthorizingException.class, () -> certifyService.sendEmailForVerify(input));
 
         /* Then */
         assertEquals(ServiceStatus.ALREADY_SPENT_ALL_EMAIL_CHANCE, actual.getServiceError());
@@ -106,7 +100,7 @@ class EmailServiceTest extends MockingTester {
         when(authHistoryRepository.findByToken(input.getToken()))
                 .thenReturn(null);
         final AuthorizingException actual = assertThrows(AuthorizingException.class, () ->
-                emailService.confirmEmailForVerify(input));
+                certifyService.confirmEmailForVerify(input));
 
         /* Then */
         assertEquals(ServiceStatus.INVALID_PARAMETER, actual.getServiceError());

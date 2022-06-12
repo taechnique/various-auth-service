@@ -29,3 +29,8 @@ verify:
     expired-second: 600 # 인증 유효시간 10분
     code-length: 6 # 인증번호 길이
 
+  phone-policy:
+    today-max: 5 # 당일 휴대폰 인증가능 횟수 제한
+    expired-second: 89 # 인증 유효시간 1:29
+    code-length: 6 # 인증번호 길이
+

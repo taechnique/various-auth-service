@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum HistoryGroup {
-    JOIN("JOIN");
+    JOIN("JOIN"),
+    PC_SIGNUP("pcSignup"),
+    ;
 
     private String group;
 
@@ -13,7 +15,7 @@ public enum HistoryGroup {
     }
 
     public static Optional<HistoryGroup> groupOf(final String group) {
-        return Arrays.stream(values()).filter(g -> g.getGroup().equals(group.toUpperCase()))
+        return Arrays.stream(values()).filter(g -> g.getGroup().equals(group))
                 .findFirst();
     }
 

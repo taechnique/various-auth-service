@@ -1,6 +1,6 @@
 package io.teach.business.auth.controller;
 
-import io.teach.business.auth.controller.dto.SendEmailDto;
+import io.teach.business.auth.dto.SendEmailDto;
 import io.teach.business.auth.dto.request.ConfirmEmailDto;
 import io.teach.business.auth.dto.response.CountModel;
 import io.teach.business.auth.dto.response.SendEmailResDto;
@@ -11,7 +11,6 @@ import io.teach.infrastructure.excepted.ServiceStatus;
 import io.teach.infrastructure.http.body.DefaultResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.ResultActions;
