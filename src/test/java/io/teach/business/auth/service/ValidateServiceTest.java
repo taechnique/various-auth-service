@@ -1,5 +1,7 @@
 package io.teach.business.auth.service;
 
+import io.teach.business.auth.constant.AccountMemberType;
+import io.teach.business.auth.constant.AccountProviderType;
 import io.teach.business.auth.dto.MemberJoinDto;
 import io.teach.business.member.entity.UserAccountInfo;
 import io.teach.business.member.repository.AccountRepository;
@@ -43,7 +45,7 @@ class ValidateServiceTest extends MockingTester {
         /* Given */
         final String id = "taechnique@yanolja.com";
         final String passphrase = "njd1!ln@sa";
-        final UserAccountInfo found = UserAccountInfo.create(id, passphrase);
+        final UserAccountInfo found = UserAccountInfo.create(AccountProviderType.DEFAULT, AccountMemberType.YANOLJA, id, passphrase, "상암동옷가게02", "0101010101");
 
         /* When */
         when(accountRepository.findLoginId(id))
@@ -199,23 +201,4 @@ class ValidateServiceTest extends MockingTester {
         assertEquals(ServiceStatus.INVALID_PARAMETER.getResCode(), actual.getServiceError().getResCode());
     }
 
-    @Test
-    @DisplayName("[회원가입 입력정보 유효성 검사] 올바르지 않은 휴대폰 번호 형식 (하이픈 필수)")
-   public void validateJoinField4() throws Throwable {
-        /* Given */
-        final MemberJoinDto input = MemberJoinDto.builder()
-                .email("taechnique@yanolja.com")
-                .emailToken("4ed17a9f-9703-4a64-b7c3-b27ca92ff0d1")
-                .password("yanolja4ever!")
-                .passwordConfirm("yanolja4ever!")
-                .phone("010-1010101")
-                .build();
-
-        /* When */
-        final AuthorizingException actual = assertThrows(AuthorizingException.class, () -> validateService.validateJoinField(input));
-
-        /* Then */
-        assertEquals(ServiceStatus.INVALID_PARAMETER.getResCode(), actual.getServiceError().getResCode());
-
-    }
 }

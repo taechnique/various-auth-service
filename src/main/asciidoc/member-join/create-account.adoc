@@ -1,0 +1,41 @@
+ifndef::subpath[]
+:subpath: ../../../../target/generated-snippets
+endif::[]
+
+[[create_account_http_request]]
+*요청 정보*
+
+include::{subpath}/member-join-controller-test/member-join-of-version4/http-request.adoc[]
+
+[[create_account_request_fields]]
+*요청 규격*
+
+include::{subpath}/member-join-controller-test/member-join-of-version4/request-fields.adoc[]
+
+[[create_account_http_response]]
+*응답 정보*
+
+include::{subpath}/member-join-controller-test/member-join-of-version4/http-response.adoc[]
+
+[[create_account_response_fields]]
+*응답 규격*
+
+include::{subpath}/member-join-controller-test/member-join-of-version4/response-fields.adoc[]
+
+[[create_account_error]]
+*서비스 예외*
+
+.🚨 필수 항목 미동의
+include::{subpath}/member-join-controller-test/member-join-of-version4_1/http-response.adoc[]
+
+.🚨 잘못된 입력값
+include::{subpath}/member-join-controller-test/member-join-of-version4_2/http-response.adoc[]
+
+.🚨 만료된 인증요청 (resCode: 12)
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email2/http-response.adoc[]
+
+.🚨 올바르지 않은 인증번호 (resCode: 10)
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email3/http-response.adoc[]
+
+.🚨 이미 인증된 이력 (resCode: 13)
+include::{subpath}/infra-controller-test/confirm-verify-number-for-email4/http-response.adoc[]

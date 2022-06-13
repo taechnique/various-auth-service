@@ -19,15 +19,16 @@ public enum ServiceStatus {
     ALREADY_EXIST_LOGIN_ID(409, 6,"FAILED", "사용할 수 없는 회원 정보입니다. 다른정보로 다시 시도해주세요."),
     INVALID_PARAMETER(400, 7,"FAILED", "잘못된 입력값"),
     INVALID_ACCESSED(405, 8, "FAILED", "잘못된 접근"),
-    ALREADY_SPENT_ALL_EMAIL_CHANCE(400, 9, "FAILED", "인증 요청 한도를 초과하였습니다."),
+    ALREADY_SPENT_ALL_EMAIL_CHANCE(400, 9, "FAILED", "이메일 인증 요청 한도를 초과하였습니다."),
     INVALID_VERIFY_NUMBER(400, 10, "FAILED", "인증번호가 올바르지 않습니다."),
     ONLY_CHANGE_TO_CANCELED_OR_VERIFIED(406, 11, "NOT_ACCEPTABLE", "완료 또는 취소로만 변경이 가능합니다."),
     ALREADY_EXPIRED_HISTORY(400, 12, "FAILED","인증번호가 올바르지 않습니다."),
     ALREADY_PROCESSED_HISTORY(400, 13, "FAILED", "인증번호가 올바르지 않습니다."),
     INVALID_PASSWORD_FORMAT(400, 14, "FAILED", "비밀번호는 영문+숫자+특수문자 8~20자리만 가능합니다."),
-    NEED_ESSENTIAL_AGREEMENT(400, 15, "FAILED", "필수항목이 동의되지 않았습니다.")
+    NEED_ESSENTIAL_AGREEMENT(400, 15, "FAILED", "필수항목이 동의되지 않았습니다."),
+    ALREADY_SPENT_ALL_PHONE_CHANCE(400, 16, "FAILED", "SMS 인증 요청 한도를 초과하였습니다."),
+    FAILED_TO_CERTIFY_PHONE(400, 17, "FAILED", "휴대폰 인증번호가 올바르지 않습니다.")
     ;
-
 
     private int status;
     private int resCode;

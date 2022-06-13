@@ -10,14 +10,14 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-public class SendEmailResDto implements StandardResponse {
+public class RegisteredResDto implements StandardResponse {
 
     @NotEmpty
     private String result;
 
     @NotNull
     @Valid
-    private SendEmailResultDto data;
+    private RegisteredResultDto data;
 
     @Override
     public String result() {

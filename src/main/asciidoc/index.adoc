@@ -28,4 +28,8 @@ include::{docdir}/infra/confirm-verify-email.adoc[]
 ==== 4. 비밀번호 유효성 검증
 include::{docdir}/member-join/validate-password.adoc[]
 
+[[member-join-api-5]]
+==== 5. 일반 회원가입
+
+include::{docdir}/member-join/create-account.adoc[]
 

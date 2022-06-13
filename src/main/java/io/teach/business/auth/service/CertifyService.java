@@ -1,6 +1,7 @@
 package io.teach.business.auth.service;
 
 import io.teach.business.auth.constant.HistoryGroup;
+import io.teach.business.auth.constant.VerifyStatus;
 import io.teach.business.auth.constant.VerifyType;
 import io.teach.business.auth.dto.SendEmailDto;
 import io.teach.business.auth.dto.SendMessageResDto;
@@ -24,11 +25,13 @@ import io.teach.infrastructure.util.Util;
 import io.teach.infrastructure.util.ValidUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static io.teach.infrastructure.excepted.ServiceStatus.success;
 
@@ -125,12 +128,12 @@ public class CertifyService {
         final Integer codeLength = verifyProperties.getPhonePolicy().getCodeLength();
 
         final HistoryGroup historyGroup = HistoryGroup.groupOf(group).orElseThrow(() -> {
-            log.error("Invalid history group.");
+            log.error("올바르지 않은 히스토리 그룹(\"{}\")입니다.", group);
             return new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
         });
 
         if(Util.isNull(phoneNum)) {
-            log.error("Invalid phone number format.");
+            log.error("올바르지않은 휴대폰 형식입니다. 다시 확인해주세요. (\"{}\")", reqDto.getPhoneNum());
             throw new AuthorizingException(ServiceStatus.INVALID_PARAMETER);
         }
 
@@ -150,7 +153,7 @@ public class CertifyService {
                 found.refreshVerifyToken(history, codeLength);
                 authHistoryRepository.save(history);
             } else
-                throw new AuthorizingException(ServiceStatus.ALREADY_SPENT_ALL_EMAIL_CHANCE);
+                throw new AuthorizingException(ServiceStatus.ALREADY_SPENT_ALL_PHONE_CHANCE);
 
         }
 
@@ -168,4 +171,5 @@ public class CertifyService {
                 .result(success())
                 .build();
     }
+
 }

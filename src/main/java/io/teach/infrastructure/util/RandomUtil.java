@@ -10,6 +10,7 @@ public class RandomUtil {
     private static final int NUMERAL_ZERO = 48;
     private static final int NUMERAL_NINE = 57;
     private static final int LETTER_LOWER_A = 97;
+    private static final int LETTER_LOWER_F = 102;
     private static final int LETTER_LOWER_Z = 122;
     private static final int LETTER_UPPER_A = 65;
     private static final int LETTER_UPPER_Z = 90;
@@ -45,6 +46,15 @@ public class RandomUtil {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
+
+    public static final String randomHexNumeric(int length) {
+        return random.ints(NUMERAL_ZERO, LETTER_LOWER_F)
+                .filter(num -> (num <= NUMERAL_NINE || num >= LETTER_LOWER_A))
+                .limit(length)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
+
 
     public static final String randomString() {
         return UUID.randomUUID().toString().replaceAll("-", "");

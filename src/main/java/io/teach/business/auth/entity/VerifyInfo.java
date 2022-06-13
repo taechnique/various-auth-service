@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -65,5 +66,9 @@ public class VerifyInfo {
     public void cancelOldHistories () {
         this.authHistory.stream().filter(h -> h.getVerifyStatus() == VerifyStatus.YET)
                 .forEach(h -> h.changeStatus(VerifyStatus.CANCELED));
+    }
+
+    public Optional<AuthHistory> lastHistory() {
+        return this.authHistory.stream().sorted((h1, h2) -> h2.getSendTime().compareTo(h1.getSendTime())).findFirst();
     }
 }

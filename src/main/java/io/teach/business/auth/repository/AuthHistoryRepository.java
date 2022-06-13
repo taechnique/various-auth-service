@@ -2,6 +2,7 @@ package io.teach.business.auth.repository;
 
 import io.teach.business.auth.constant.VerifyStatus;
 import io.teach.business.auth.entity.AuthHistory;
+import io.teach.business.auth.entity.VerifyInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -25,10 +26,10 @@ public interface AuthHistoryRepository extends JpaRepository<AuthHistory, Long> 
             "on ah.verifyInfo.id = vi.id " +
             "where " +
             "ah.verifyPermitToken = ?1 " +
-            "and ah.sendTime is not null " +
-            "and vi.verifyNumber = ?2 " +
-            "and vi.verifyTarget = ?3 " +
-            "and ah.verifyStatus = ?4")
+            "and ah.verifyTime is not null " +
+            "and ah.verifyStatus = ?2 " +
+            "and vi.verifyTarget = ?3" )
+    Optional<AuthHistory> findByVerifiedHistory(final String token, final VerifyStatus status, final String target);
 
-    Optional<AuthHistory> findByVerifiedHistory(final String token, final String verifyCode, final String target, final VerifyStatus status);
+
 }

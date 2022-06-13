@@ -1,6 +1,8 @@
 package io.teach.business.member.entity;
 
+import io.teach.business.auth.constant.AccountMemberType;
 import io.teach.business.auth.constant.AccountProviderType;
+import io.teach.infrastructure.util.RandomUtil;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,29 +24,58 @@ public class UserAccountInfo {
     @Enumerated(EnumType.STRING)
     private AccountProviderType accountType;
 
-    @Column(unique = true)
-    private String loginId;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AccountMemberType memberType;
 
-    private String username;
+    @Column(nullable = false)
+    private String hashedMemberNo;
 
-    @Column(unique = true)
-    private String passphrase;
+    @Column(nullable = false)
+    private String providerId;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    private String nickName;
+
+    @Column(nullable = false)
+    private String passphrase;
+
+    @Column(nullable = false)
     private String phone;
 
-    @OneToOne(mappedBy = "userAccount", fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    private String phoneYN;
+
+    @OneToOne(mappedBy = "userAccount", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private UserAuthInfo authInfo;
 
     private LocalDateTime createTime;
 
-    public static UserAccountInfo create(final String loginId, final String passphrase) {
-        UserAccountInfo info = new UserAccountInfo();
-
-        info.loginId = loginId;
+    public static UserAccountInfo create(
+            final AccountProviderType accountType,
+            final AccountMemberType memberType,
+            final String email,
+            final String passphrase,
+            final String nickName,
+            final String phone) {
+        final UserAccountInfo info = new UserAccountInfo();
+        info.accountType = accountType;
+        info.memberType = memberType;
+        info.hashedMemberNo = RandomUtil.randomString();
+        info.providerId = RandomUtil.randomHexNumeric(32);
+        info.email = email;
         info.passphrase = passphrase;
+        info.nickName = nickName;
+        info.phone = phone;
+        info.phoneYN = "Y";
+        info.createTime = LocalDateTime.now();
 
         return info;
+    }
+
+    public void setAuthInfo(final UserAuthInfo authInfo) {
+        this.authInfo = authInfo;
     }
 }
